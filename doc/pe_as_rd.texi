@@ -1,0 +1,1006 @@
+\input texinfo @c -*- texinfo -*-
+
+@settitle C based Abstract Syntax Reader User Guide
+@setfilename pe_as_rd.info
+
+@titlepage
+@center @titlefont{C based Abstract Syntax Reader}
+@sp 2
+@center @titlefont{User Guide}
+@sp 1
+@center for version 1.1
+@sp 1
+@center last updated $Date: 1995/03/28 09:40:59 $
+@page
+@vskip 0pt plus 1filll 
+Copyright @copyright{} 1994-2015 Nineties Retro
+
+Permission is granted to make and distribute, for use within the
+organization to which it is supplied, verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+@end titlepage
+@page
+
+@ifinfo
+@comment  node-name,  next,  previous,  up
+@node Top, Introduction, (dir), (dir)
+
+This is a guide to using the Abstract Syntax Reader.
+
+@end ifinfo
+
+@menu
+* Introduction::        About the abstract syntax reader
+* Interface::           The C types and functions in the reader
+* Errors::              How to report errors in the reader
+* References::          All the books and papers referenced in the user guide
+* Function Index::      All the functions defined in the reader
+* Type Index::          All the types defined in the reader
+@end menu
+
+@comment  node-name,  next,  previous,  up
+@node Introduction, Interface, Top, Top
+@chapter Introduction
+
+The PE Parser (@pxref{Top, , Introduction, pep-user, PE Parser User
+Guide} can produce a processed version of the input file that contains
+all the information in the original file, but which is in a form that is
+more efficient to access and which, by definition, is known to be
+syntactically valid.
+
+The file is converted into a structure that is logically a binary
+tree; more formally this is an @dfn{abstract syntax} [McCarthy63,Ada82].
+Each node in the tree represents a construct in the original file.
+For example, a keyword and constructs up to the matching @samp{)} of
+that keyword in the syntax are converted into a keyword node
+together with a collection of child nodes.  To maintain the information
+inherent in the original file, the keyword node is linked to the
+first child through the two way @emph{parent/child} relationship, and
+all the children are linked together as siblings through the one way
+relationship @emph{next}.  For example, the following constructs :-
+
+@example
+  (edifVersion 3 0 0)
+@end example
+
+would be represented by the following in the processed file :-
+
+@example
+                 +-----------+ ---- child -----> +---+               |
+... <- parent -- |edifVersion|                   | 3 | --- child --> | |
+                 +-----------+ <--- parent ----- +---+               |   
+                     |     ^                       |
+                    next   |                      next
+                     |     |                       |
+                     v     |                       v
+                    ...    |                     +---+               |
+                           +--<--- parent ------ | 0 | --- child --> | |
+                           |                     +---+               |
+                           |                       |
+                           |                      next
+                           ^                       |
+                           |                       v
+                           |                     +---+               |
+                           +--<--- parent ------ | 0 | --- child --> | |
+                                                 +---+               |
+                                                   |
+                                                  next
+                                                   |
+                                                   v
+                                                  ---
+                                                   -
+@end example
+
+The keyword node containing `edifVersion' is connected via the `child'
+relationship to the integer node containing 2.  This in turn is
+connected back to the keyword node via the relationship @emph{parent}.
+The integer node does not have a `child' itself (signified by the
+@emph{ground} symbol above) but it does have sibling nodes.  The integer
+node containing 2 is connected to its adjacent sibling, an integer node
+containing 0, via the relationship @emph{next}.  This sibling is
+connected to the keyword node via the @emph{parent} relationship and to
+the next sibling via the @emph{next} relationship.  Again, the integer
+node does not have a child and this is signified by its connection to
+@emph{ground}.  The final sibling is an integer node, again containing
+0.  This is connected to the keyword node via @emph{parent}, but its
+`child' and @emph{next} relationships are both connected to
+@emph{ground} since it has neither a child nor a next sibling.
+
+Note that in a complete file, the @emph{edifVersion} node would itself
+be related via @emph{parent} to its parent and via @emph{next} to its
+next sibling.  These relationships are shown pointing to @samp{@dots{}} in
+the above to indicate that something other than @emph{ground} would
+occur there in practice.
+
+The following presents a larger example of how an EDIF [EDIF300] file is
+represented in a tree structured form.
+
+@example
+  (edif test
+    (edifVersion 3 0 0)
+    (edifHeader
+      (edifLevel 0)
+      (keywordMap (k0keywordLevel 0))
+      (unitDefinitions)
+      (fontDefinitions)
+      (physicalDefaults)
+      (status))
+      (library lib1
+        (libraryHeader
+          (edifLevel 0)
+          (technology (physicalScaling))))
+      (library lib2
+        (libraryHeader
+          (edifLevel 0)
+          (technology (physcialScaling)))
+        (cell cell1 
+          (cellHeader)
+          (cluster cluster1
+            (clusterHeader))
+          (cluster cluster2
+            (clusterHeader)))
+        (cell cell2
+          (cellHeader)
+          (cluster cluster3
+            (clusterHeader)))))
+@end example
+
+The above is represented logically by the following tree.  For brevity,
+the relationship names have been omitted along with all the @emph{parent}
+links and any links to @emph{ground}.
+
+@example
+  edif---test
+          |
+     edifVersion------3
+          |           |
+          |           0
+          |           |
+          |           0
+          |
+     edifHeader---edifLevel-------0
+                      |
+                  keywordMap---k0keywordLevel----0
+                      |             
+                unitDefinitions
+                      |
+                fontDefinitions
+                      |
+                   status
+                      |
+                   library------lib1
+                      |           |
+                      |     libraryHeader----edifLevel----------0
+                      |                          |
+                      |                      technology---physicalScaling
+                      |
+                   library-------lib2
+                                  |
+                             libraryHeader---edifLevel----------0
+                                  |              |
+                                  |          technology---physicalScaling
+                                  |
+                                cell-----------cell1
+                                  |              |
+                                  |          cellHeader
+                                  |              |
+                                  |           cluster--------cluster1
+                                  |              |               |
+                                  |              |         clusterHeader
+                                  |              |
+                                  |           cluster--------cluster2
+                                  |                              |
+                                  |                        clusterHeader
+                                  |
+                                cell-----------cell2
+                                                 |
+                                             cellHeader
+                                                 |
+                                              cluster--------cluster3
+                                                                |
+                                                           clusterHeader
+@end example
+
+@node Interface, Errors, Introduction, Top
+@chapter Interface
+
+The following sections describe the types, variables, and functions that
+make up the abstract syntax reader interface.  The following two terms have
+specific meanings when they are used in the description of a variable or
+function :-
+
+@table @dfn
+@item unspecified
+When applied to a variable it means that the variable has a value but
+the value is implementation dependent.  When applied to a function it
+means that the function will produce a value, but the value is
+implementation dependent.
+
+@item undefined
+The function may return a value, or it may not return at all.  
+Generally you can assume that once an @emph{undefined} state has been
+entered the program will abort in some way, but do @emph{not} write any
+code that depends on this.
+
+@end table
+
+@menu
+* Open and Close::    Opening and closing a reader.
+* Moving Around::     Moving around a file.
+* Node Index::        How nodes are indexed.
+* Node Type::         A description of the various node types.
+* Identifier::        The type of identifiers and operations on them.
+* Integer::           The type of integers and operations on them.
+* Keyword::           The type of keywords and operations on them.
+* Line Number::       The type of line numbers and operations on them.
+* String::            The type of strings and operations on them.
+* Application::       How to use the interface in an application.
+@end menu
+
+
+@deftp @b{Data type} pe_as_rd
+
+The interface is defined such that it is possible to have more than one
+reader open at any one time.  A reader has the type @code{pe_as_rd}.
+@end deftp
+
+
+@node Open and Close, Moving Around, , Interface
+@section Opening and Closing a Reader
+
+@deftypefn @b{Function} int pe_as_rd_open (pe_as_rd *@var{reader}, char const *@var{language}, char const *@var{data})
+
+@code{pe_as_rd_open} opens @var{reader} for the given @var{language} on
+@var{data} and using @var{error_handler} to handle any errors that may
+occur while @var{reader} is being used.
+
+@code{pe_as_rd_open} returns a zero value if the file
+is opened successfully otherwise it returns an error code Exxx 
+indicating the nature of the error.
+
+No @code{pe_as_rd} operation is valid on a @var{reader} until
+@code{pe_as_rd_open} has been successfully applied to @var{reader};
+attempting to apply an operation before @code{pe_as_rd_open} has
+successfully returned will result in @emph{undefined} behaviour.
+@end deftypefn
+
+
+@deftypefn @b{Function} int pe_as_rd_close (pe_as_rd *@var{reader})
+
+@code{pe_as_rd_close} closes @var{reader} and indicates that no more data is to
+be read from it.  @code{pe_as_rd_close} returns a zero value if
+@var{reader} is closed successfully a non-zero Exxx value is returned.
+
+@end deftypefn
+
+@code{pe_as_rd_open} forms a pair with @code{pe_as_rd_close}; for every call
+to @code{pe_as_rd_open} there must be a corresponding call to
+@code{pe_as_rd_close}.
+
+The following is an example of how @code{pe_as_rd_open} and
+@code{pe_as_rd_close} might be used :-
+
+@example
+  static void fatal_error(int err)
+  @{
+    fprintf(stderr, "system error: %s\n", strerror(err));
+    exit(EXIT_FAILURE);
+  @}
+
+
+  static void process_file(char const *language, char const *data)
+  @{
+    pe_as_rd reader;
+    int err;
+
+    err = pe_as_rd_open(&reader, language, data);
+    if (err) @{
+      fatal_error(err);
+    @}
+
+    /* do something with the reader here */
+
+    err = pe_as_rd_close(&reader);
+    if (err) @{
+      fatal_error(err);
+    @}
+  @}
+@end example
+
+
+@node Moving Around, Node Index, Open and Close, Interface
+@section Moving Around
+
+
+@deftypefn @b{Function} pe_as_idx pe_as_rd_child (pe_as_rd *@var{reader}, pe_as_idx @var{position})
+
+@code{pe_as_rd_child} returns the @emph{first} child of the node at the
+given @var{position} in the @var{reader}.  If the node does not have a
+child, an index is returned which is guaranteed not to index a
+valid node.  This can be tested for using @code{pe_as_idx_valid}
+(@pxref{Node Index Validity}).
+@end deftypefn
+
+
+@deftypefn @b{Function} pe_as_idx pe_as_rd_parent (pe_as_rd *@var{reader}, pe_as_idx @var{position})
+
+@code{pe_as_rd_parent} returns the parent of the node at the given
+@var{position} in the @var{reader}.  If a node does not have a parent, which
+should only be true for the root node, then @code{pe_as_rd_parent} returns a
+value that will result in 0 being returned if @code{pe_as_idx_valid}
+(@pxref{Node Index Validity}) is applied to it.
+@end deftypefn
+
+
+@deftypefn @b{Function} pe_as_idx pe_as_rd_next (pe_as_rd *@var{reader}, pe_as_idx @var{position})
+
+@code{pe_as_rd_next} returns the index of the next sibling of the node at
+the given @var{position} in the @var{reader}.  If a node does not have a
+next sibling, @code{pe_as_idx_valid} (@pxref{Node Index Validity}) will
+return 0 when applied to the result of @code{pe_as_rd_next}. 
+@end deftypefn
+
+
+@deftypefn @b{Function} pe_as_idx pe_as_rd_root (pe_as_rd *@var{reader})
+
+@code{pe_as_rd_root} returns the index of the root node.  For
+all versions of EDIF up to and including EDIF version 3 0 0, this
+will be the node containing the keyword @samp{edif}.
+@end deftypefn
+
+
+@deftypefn @b{Function} pe_as_idx pe_as_rd_on_line (pe_as_rd *@var{reader}, unsigned long @var{line})
+
+@code{pe_as_rd_on_line} returns the index of the first node on the given
+@var{line} in the corresponding file.  @var{line} must be in the
+range @emph{[1..n]} where @emph{n} is the number of lines in the file,
+the result is @emph{undefined} if it is not.  If there is no node on the
+given @var{line} then @code{pe_as_idx_bottom} (@pxref{Node Index Order}) is
+returned. 
+
+Unlike the other operations for moving around, @code{pe_as_rd_on_line} is
+not a constant time operation.  It takes a time proportional to the log
+to the base 2 of the number of nodes that represent the file to find the
+first node on a given @var{line}.
+
+@end deftypefn
+
+
+
+@node Node Index, Node Type, Moving Around, Interface
+@section Node Index
+
+@menu 
+* Node Index Type::     The type of a node index
+* Node Index Equality:: Comparing if two nodes are equal
+* Node Index Order::    Determining the relative order of nodes
+* Node Index Validity:: Determining if a node index is valid
+@end menu
+
+@node Node Index Type, Node Index Equality, , Node Index
+@subsection Node Index Type
+
+@deftp @b{Data type} pe_as_idx
+
+Every construct in the originating file is represented by a
+@var{node} in the processed file.  To identify or locate a
+@var{node} a pointer or index with the type @var{pe_as_idx} is used.
+@end deftp
+
+@node Node Index Equality, Node Index Order, Node Index Type, Node Index
+@subsection Node Index Equality
+
+@deftypefn @b{Function} int pe_as_idx_eq (pe_as_idx @var{a}, pe_as_idx @var{b})
+
+@code{pe_as_idx_eq} returns a non-zero value if @var{a} @equiv{} @var{b}.
+@end deftypefn
+
+
+@node Node Index Order, Node Index Validity, Node Index Equality, Node Index
+@subsection Node Index Order
+
+@deftypefn @b{Function} int pe_as_idx_le (pe_as_idx @var{a}, pe_as_idx @var{b})
+
+@code{pe_as_idx_le} returns a non-zero value if @var{a} <= @var{b}.
+Formally: @code{pe_as_idx_le} forms a total order over @code{pe_as_idx} with
+@code{pe_as_idx_bottom} as the bottom element.
+@end deftypefn
+
+@deftypefn @b{Function} int pe_as_idx_lt (pe_as_idx @var{a}, pe_as_idx @var{b})
+
+@code{pe_as_idx_lt} returns a non-zero value if @var{a} < @var{b}.
+Formally: @code{pe_as_idx_lt} forms a strict total order over
+@code{pe_as_idx} with @code{pe_as_idx_bottom} as the bottom element.
+@end deftypefn
+
+@deftypefn @b{Function} int pe_as_idx_bottom (void)
+
+@code{pe_as_idx_bottom} returns an index value that is guaranteed not to
+index a node.  Its main use is as an @emph{error} value for functions which
+need to return an index, but sometimes need to indicate that there is no
+defined index.  For example, @code{pe_as_rd_child} will return this when a
+node does not have a child.
+
+Formally: @code{pe_as_idx_bottom} represents bottom in the various
+orderings defined over the @code{pe_as_idx} type.
+@end deftypefn
+
+
+@node Node Index Validity, , Node Index Order, Node Index
+@subsection Node Index Validity
+
+
+@deftypefn @b{Function} int pe_as_idx_valid (pe_as_idx @var{index})
+
+@code{pe_as_idx_valid} is used to test whether a node index is valid or
+not.  It returns a non-zero value if @var{index} is a valid
+node index.  The most common use of @code{pe_as_idx_valid} is to test the
+result of routines such as @code{pe_as_rd_child}(@pxref{Moving Around})
+and @code{pe_as_rd_parent} (@pxref{Moving Around}).  Both of these
+routines may return an invalid index, the former if a node does not have
+a child and the latter if it does not have a parent. 
+@end deftypefn
+
+
+The following is an example of how @code{pe_as_idx_valid} can be used.
+The function @code{depth_first_traversal} performs a depth first
+traversal of the tree structure applying the function @code{process} to
+each node.
+
+@example
+  static void depth_first_traversal(pe_as_rd *reader, pe_as_idx p)
+  @{
+    if (pe_as_idx_valid(p)) @{
+      process(reader, p);
+      depth_first_traversal(reader, pe_as_rd_child(reader, p));
+      depth_first_traversal(reader, pe_as_rd_next(reader, p));
+    @}
+  @}
+@end example
+
+
+
+@node Node Type, Identifier, Node Index, Interface
+@section Node Type
+
+@deftp @b{Data type} pe_as_nt
+
+Every node has a particular type which indicates what type of 
+construct the node represents.  The possible types are:
+@code{pe_as_nt_id}, @code{pe_as_nt_int}, @code{pe_as_nt_kw} and
+@code{pe_as_nt_str}.  These represent an identifier, integer, keyword
+and string respectively.
+
+@end deftp
+
+
+@deftypefn @b{Function} pe_as_nt pe_as_rd_type (pe_as_rd *@var{reader}, pe_as_idx @var{position})
+
+@code{pe_as_rd_type} returns the type of the node at the given
+@var{position} in the @var{reader}.  Commonly this is used to determine
+which of the access functions can be used to extract the value from the
+node at the given @var{position}.
+@end deftypefn
+
+
+
+@node Identifier, Integer, Node Type, Interface
+@section Identifier
+
+@menu
+* Identifier Type::        The type of identifiers
+* Identifier Equality::    Comparing identifiers for equality
+* Identifier Order::       The order defined on identifiers
+* Identifier Coercion::    Converting an identifier to a C integral type
+* Identifier Extraction::  Extracting an identifier from a node
+@end menu
+
+
+@node Identifier Type, Identifier Equality, , Identifier
+@subsection Identifier Type
+
+@deftp @b{Data type} pe_as_id
+
+Every identifier in an source file is represented by an instance of
+@code{pe_as_id}.
+@end deftp
+
+
+@node Identifier Equality, Identifier Order, Identifier Type, Identifier
+@subsection Identifier Equality
+
+@deftypefn @b{Function} int pe_as_id_eq (pe_as_id @var{a}, pe_as_id @var{b})
+
+@code{pe_as_id_eq} returns a non-zero value if the identifier @var{a} is
+equal to the identifier @var{b}.  Where @emph{equal} in this context
+means that after removing any leading @samp{&} and ignoring the case, 
+the two identifiers are lexicographically identical.
+
+Note that @code{pe_as_id_eq} should be considered as an efficient
+operation compared with performing @code{strcmp} on the strings returned
+by @code{pe_as_rd_id_lit} (@pxref{Identifier Extraction}).
+@end deftypefn
+
+
+@node Identifier Order, Identifier Coercion, Identifier Equality, Identifier
+@subsection Orderings defined over identifiers
+
+@deftypefn @b{Function} int pe_as_id_le (pe_as_id @var{a}, pe_as_id @var{b})
+
+@code{pe_as_id_le} returns a non-zero value if @var{a} is less than or
+equal to @var{b}.  What constitutes @emph{less than or equal to} is
+@emph{unspecified} and does @emph{not} imply that if @code{pe_as_id_le(a,
+b)} returns a non-zero value then @var{a} is lexicographically before or
+equal to @var{b}.
+
+Formally: @code{pe_as_id_le} forms a total order over @code{pe_as_id}
+with @code{pe_as_id_bottom} as bottom.
+@end deftypefn
+
+
+@deftypefn @b{Function} int pe_as_id_lt (pe_as_id @var{a}, pe_as_id @var{b})
+
+@code{pe_as_id_lt} returns a non-zero value if @var{a} is less than
+@var{b}.  What constitutes @emph{less than} is @emph{unspecified} and does
+@emph{not} imply that if @code{pe_as_id_lt(a, b)} returns a non-zero value
+then @var{a} lexicographically precedes @var{b}.
+
+Formally: @var{pe_as_id_lt} forms a strict total order over @code{pe_as_id}
+with @code{pe_as_id_bottom} as bottom.
+@end deftypefn
+
+Although the order defined by @code{pe_as_id_le} and @code{pe_as_id_lt} is
+not necessarily the lexicographic one, the routines can be useful if all
+that is required is @emph{some} ordering on the identifiers.  For
+example, if identifiers are stored in some form of balanced tree,
+then an ordering is required, but it does not have to be the
+lexicographic one.  In this case @code{pe_as_id_le} and @code{pe_as_id_lt}
+provide an efficient mechanism for comparing the relative order of two
+identifiers.  If lexicographic ordering is required, then this can
+be obtained by using @code{strcmp} to compare the strings returned by
+@code{pe_as_rd_id_lit} (@pxref{Identifier Extraction}).
+
+
+
+@deftypefn @b{Function} pe_as_id pe_as_id_bottom (void)
+
+The main use of @code{pe_as_id_bottom} is as an @emph{error} value for
+functions which need to return an identifier, but sometimes need to
+indicate that there is no correct identifier.  For example, a function
+that maps constructs to their name could return this if the construct
+does not have a name.
+
+Formally: @code{pe_as_id_bottom} represents bottom in the various
+orderings defined over the @code{pe_as_id} type.
+@end deftypefn
+
+
+@node Identifier Coercion, Identifier Extraction, Identifier Order, Identifier
+@subsection Converting an identifier into an integral C type
+
+@deftypefn @b{Function} size_t pe_as_id_code (pe_as_id @var{identifier})
+
+@code{pe_as_id_code} converts an @var{identifier} into an integral code.
+It is guaranteed that any two identical identifiers will have the same
+code.  This makes the code useful as a form of @emph{hash} value. 
+@end deftypefn
+
+
+
+@node Identifier Extraction, , Identifier Coercion, Identifier
+@subsection Extracting an identifier from a node
+
+@deftypefn @b{Function} pe_as_id pe_as_rd_id (pe_as_rd *@var{reader}, pe_as_idx @var{position})
+
+@code{pe_as_rd_id} returns an instance of @code{pe_as_id} representing the
+identifier in the node at the given @var{position} in the @var{reader}.
+@code{pe_as_rd_id} should not be called on a node that does not contain an
+identifier; any attempt to do so will have an @emph{undefined} result.
+If in doubt, use @code{pe_as_rd_type} (@pxref{Node Type}) to check that
+the type of the node is @code{pe_as_nt_id} before applying @code{pe_as_rd_id}.
+@end deftypefn
+
+
+@deftypefn @b{Function} {char const *} pe_as_rd_id_lit (pe_as_rd *@var{reader}, pe_as_id @var{id})
+
+@code{pe_as_rd_id_lit} returns the null terminated literal string
+represented by @var{id}.  The literal string is under the control of
+the reader and exists until the reader is closed; if it is necessary to
+keep the literal string after closing the reader then the literal string
+must be copied.
+
+@end deftypefn
+
+
+@deftypefn @b{Function} {char const *} pe_as_rd_id_lit_len (pe_as_rd *@var{reader}, pe_as_id @var{id}, size_t *@var{length})
+
+Like @code{pe_as_rd_id_lit}, @code{pe_as_rd_id_lit_len} returns the null
+terminated literal string represented by @var{id}.  The difference
+between the two functions is that @code{pe_as_rd_id_lit_len} also
+returns the length of the literal string via @var{length}.  The literal
+string is under the control of the reader and exists until the reader is
+closed; if it is necessary to keep the literal string after closing the
+reader then the literal string must be copied.
+
+@end deftypefn
+
+
+
+@node Integer, Keyword, Identifier, Interface
+@section Integer
+
+@menu
+* Integer Type::        The type of integers
+* Integer Equality::    Comparing integers
+* Integer Order::       The order defined on integers
+* Integer Coercion::    Converting an integer to a C integral type
+* Integer Extraction::  Extracting an integer from a node
+@end menu
+
+@node Integer Type, Integer Equality, , Integer
+@subsection Integer Type
+
+@deftp @b{Data type} pe_as_int
+
+Any literal integer in the source file is represented by an @code{epi_int}.
+Only a limited number of operations are directly available on the
+type.  Any other operations, such as standard mathematical ones can
+be achieved by first converting the integer to a C integral type
+using @code{pe_as_int2long} (@pxref{Integer Coercion}).
+@end deftp
+
+
+@node Integer Equality, Integer Order, Integer Type, Integer
+@subsection Integer Equality
+
+@deftypefn @b{Function} int pe_as_int_eq (pe_as_int @var{a}, pe_as_int @var{b})
+
+@code{pe_as_int_le} returns a non-zero value if @var{a} = @var{b}.
+@end deftypefn
+
+
+@node Integer Order, Integer Coercion, Integer Equality, Integer
+@subsection Integer Order
+
+@deftypefn @b{Function} int pe_as_int_le (pe_as_int @var{a}, pe_as_int @var{b})
+
+@code{pe_as_int_le} returns a non-zero value if @var{a} <= @var{b}.
+@end deftypefn
+
+@deftypefn @b{Function} int pe_as_int_lt (pe_as_int @var{a}, pe_as_int @var{b})
+
+@code{pe_as_int_le} returns a non-zero value if @var{a} < @var{b}.
+@end deftypefn
+
+
+@node Integer Coercion, Integer Extraction, Integer Order, Integer
+@subsection Coercing an integer to a C integral type
+
+@deftypefn @b{Function} long pe_as_int2long (pe_as_int @var{integer})
+
+@code{pe_as_int2long} converts an @code{pe_as_int} @var{integer} into a
+standard C @var{long}.
+@end deftypefn
+
+
+@node Integer Extraction, , Integer Coercion, Integer
+@subsection Extracting an integer from a node
+
+@deftypefn @b{Function} pe_as_int pe_as_rd_int (pe_as_rd *@var{reader}, pe_as_idx @var{position})
+
+@code{pe_as_rd_int} returns the integer in the node at the given
+@var{position} in the @var{reader}.  Note that @code{pe_as_rd_int} should
+not be called on a node that does not contain an integer; any attempt to
+do so will have an @emph{undefined} result.  If in doubt, use
+@code{pe_as_rd_type} (@pxref{Node Type}) to check that the type of the
+node is @code{pe_as_nt_int} before applying @code{pe_as_rd_int}.
+@end deftypefn
+
+
+
+@node Keyword, Line Number, Integer, Interface
+@section Keyword
+
+@menu
+* Keyword Type::        The type of symbolic constants
+* Keyword Equality::    Comparing keywords
+* Keyword Coercion::    Converting a keyword to a C type
+* Keyword Extraction::  Extracting a keyword from a keyword node
+@end menu
+
+
+@node Keyword Type, Keyword Equality, , Keyword
+@subsection Keyword Type
+
+@deftp @b{Data type} pe_as_kw
+
+A keyword in the source file is represented by an instance
+of @code{pe_as_kw}.
+@end deftp
+
+
+@node Keyword Equality, Keyword Coercion, Keyword Type, Keyword
+@subsection Keyword Equality
+
+@deftypefn @b{Function} int pe_as_kw_eq (pe_as_kw @var{a}, pe_as_kw @var{b})
+
+@code{pe_as_kw_eq} returns a non-zero value if @var{a} and @var{b}
+represent the same keyword.
+@end deftypefn
+
+
+@node Keyword Coercion, Keyword Extraction, Keyword Equality, Keyword
+@subsection Coercing an keyword to an integral C type.
+
+@deftypefn @b{Function} int pe_as_kw2int (pe_as_kw @var{value})
+
+@code{pe_as_kw2int} converts an @code{pe_as_kw} @var{value} into a
+standard C @code{int}.  The keywords are mapped, in increasing order,
+onto the range @emph{[1..n]} where @var{n} is the number of keywords in
+the language being processed.
+@end deftypefn
+
+
+@node Keyword Extraction, , Keyword Coercion, Keyword
+@subsection Extracting a keyword from a keyword node
+
+@deftypefn @b{Function} pe_as_kw pe_as_rd_kw (pe_as_rd *@var{reader}, pe_as_idx @var{position})
+
+@code{pe_as_rd_kw} returns the keyword in the node at the given @var{position}
+in the @var{reader}.  Note that @code{pe_as_rd_kw} should not be called on
+a node that does not contain a keyword; any attempt to do so will have
+an @emph{undefined} result.  If in doubt, use @code{pe_as_rd_type}
+(@pxref{Node Type}) to check that the type of the node is
+@code{pe_as_nt_kw} before applying @code{pe_as_rd_kw}.
+@end deftypefn
+
+
+@deftypefn @b{Function} {char const *} pe_as_rd_kw_lit (pe_as_rd *@var{reader}, pe_as_kw @var{kw})
+
+@code{pe_as_rd_kw_lit} returns the null terminated literal string
+represented by @var{kw}.  The literal string is under the control of
+the reader and exists until the reader is closed; if it is necessary to
+keep the literal string after closing the reader then the literal string
+must be copied.
+
+@end deftypefn
+
+
+@deftypefn @b{Function} {char const *} pe_as_rd_kw_lit_len (pe_as_rd *@var{reader}, pe_as_kw @var{kw}, size_t *@var{length})
+
+Like @code{pe_as_rd_kw_lit}, @code{pe_as_rd_kw_lit_len} returns the null
+terminated literal string represented by @var{kw}.  The difference
+between the two functions is that @code{pe_as_rd_kw_lit_len} also
+returns the length of the literal string via @var{length}.  The literal
+string is under the control of the reader and exists until the reader is
+closed; if it is necessary to keep the literal string after closing the
+reader then the literal string must be copied.
+
+@end deftypefn
+
+
+@node Line Number, String, Keyword, Interface
+@section Line Number
+
+@menu
+* Line Number Type::            The type of line numbers
+* Line Number Equality::        Comparing line numbers
+* Line Number Order::           How line numbers are ordered
+* Line Number Coercion::        Converting a line number to a C integral type
+* Line Number Extraction::      Extracting a line number from a node
+@end menu
+
+@node Line Number Type, Line Number Equality, , Line Number
+@subsection Line Number Type
+
+@deftp @b{Data type} pe_as_line
+
+Every node contains the line number of the construct it represents in
+the corresponding source file.  A line number has the type @code{pe_as_line}.
+@end deftp
+
+
+@node Line Number Equality, Line Number Order, Line Number Type, Line Number
+@subsection Line Number Equality
+
+@deftypefn @b{Function} int pe_as_line_eq (pe_as_line @var{a}, pe_as_line @var{b})
+
+@code{pe_as_line_le} returns a non-zero value if the line @var{a} is the
+the same as the line @var{b}.
+@end deftypefn
+
+
+@node Line Number Order, Line Number Coercion, Line Number Equality, Line Number
+@subsection Line Number Order
+
+@deftypefn @b{Function} int pe_as_line_le (pe_as_line @var{a}, pe_as_line @var{b})
+
+@code{pe_as_line_le} returns a non-zero value if the line @var{a} comes
+before or is the same as the line @var{b}.
+@end deftypefn
+
+
+@deftypefn @b{Function} int pe_as_line_lt (pe_as_line @var{a}, pe_as_line @var{b})
+
+@code{pe_as_line_le} returns a non-zero value if the line @var{a} comes
+before the line @var{b}.
+@end deftypefn
+
+
+@node Line Number Coercion, Line Number Extraction, Line Number Order, Line Number
+@subsection Coercing a line number to a integral C type.
+
+@deftypefn @b{Function} {unsigned long int} pe_as_line2ulong (pe_as_line @var{line})
+
+@code{pe_as_line2ulong} converts an @code{pe_as_line} @var{line} into a
+standard C @code{unsigned long}.  This allows operations that are not
+directly available on @code{pe_as_line} to be applied to a line number.
+@end deftypefn
+
+
+@node Line Number Extraction, , Line Number Coercion, Line Number
+@subsection Line Number Extraction
+
+@deftypefn @b{Function} pe_as_line pe_as_rd_line (pe_as_rd *@var{reader}, pe_as_idx @var{position})
+
+@code{pe_as_rd_line} returns the line number of the node at the given
+@var{position} in the @var{reader}.   The line number is that of the
+construct that the node represents in the source file.
+@end deftypefn
+
+
+
+@node String, Application, Line Number, Interface
+@section String
+
+@menu
+* String Type::         The type of strings
+* String Extraction::   Extracting a string from a node
+@end menu
+
+@node String Type, String Extraction, , String
+@subsection String Type
+
+@deftp @b{Data type} pe_as_str
+
+Every literal string in a source file is represented by an instance of
+@code{pe_as_str}.
+@end deftp
+
+
+@node String Extraction, , String Type, String
+@subsection Extracting a string from a node
+
+@deftypefn @b{Function} pe_as_str pe_as_rd_str (pe_as_rd *@var{reader}, pe_as_idx @var{position})
+
+@code{pe_as_rd_str} returns the string in the node at the given
+@var{position} in the @var{reader}.  If the node at @var{position} does
+not contain a string, then the result is @emph{undefined}.  If in doubt,
+use @code{pe_as_rd_type} (@pxref{Node Type}) to check that the type of
+the node is @code{pe_as_nt_str} before applying @code{pe_as_rd_str}.
+
+@end deftypefn
+
+
+@deftypefn @b{Function} {char const *} pe_as_rd_str_lit (pe_as_rd *@var{reader}, pe_as_str @var{string})
+
+@code{pe_as_rd_str_lit} returns the null terminated literal string
+represented by @var{string}.  The string is under the control of the
+reader and exists until the reader is closed; if it is necessary to keep
+the string after closing the reader then the string must be copied.
+
+@end deftypefn
+
+
+@deftypefn @b{Function} {char const *} pe_as_rd_str_lit_len (pe_as_rd *@var{reader}, pe_as_str @var{string}, size_t *@var{length})
+
+Like @code{pe_as_rd_str_lit}, @code{pe_as_rd_str_lit_len} returns the
+null terminated literal string represented by @var{string}.  The
+difference between the two functions is that @code{pe_as_rd_str_lit_len}
+also returns the length of the string via @var{length}.  The string is
+under the control of the reader and exists until the reader is closed;
+if it is necessary to keep the string after closing the reader then the
+string must be copied. 
+
+@end deftypefn
+
+
+
+@node Application, , String, Interface
+@section Using the programming interface in an application
+
+To use the interface in an application program it is necessary to do two
+things :-
+
+@itemize @bullet
+
+@item
+Include the header file @file{include/pe_as_rd.h} in any file that needs
+to use the programming interface.
+
+@item
+Add the object file in @file{lib/pe_as_rd.o} to the list of objects to
+link the application against.
+
+@end itemize
+
+Examples of how to do the above are contained in the programming
+interface distribution, see the file @file{examples/README} for more
+information.
+
+
+@node Errors, References, Interface, Top
+@chapter Reporting Errors
+
+If you find any errors in the programming interface or its
+documentation, then please submit a report.  If you are not sure if
+something is an error or not, then the following are some of the
+situations in which you should report an error :-
+
+@itemize @bullet
+@item
+If the behaviour of the programming interface does not match the
+description in this manual, then that is an error.
+
+@item
+If the description in the manual is ambiguous or too vague for you to
+clearly determine how to use the programming interface, then that is an
+error.
+
+@item
+If calling one of the functions in the programming interface causes your
+program to terminate, (e.g. produces ``Segmentation fault'' or ``Bus
+error'' on UNIX systems), then that is an error. 
+
+@end itemize
+
+When reporting a bug please supply the following information:
+
+@itemize @bullet
+@item
+The version of the programming interface.  The version can be found in
+the title of this document.
+
+@item
+If the error is with one or more of the functions in the programming
+interface, then please include complete program that will
+reproduce the error.  Try and make the program as small as possible
+whilst retaining the error.
+
+@item
+The type of machine you are using together with the operating system
+name and version number.
+@end itemize
+
+
+Error reports can be submitted by email: nineties-retro at mail.com
+
+@node References, Function Index, Errors, Top
+@unnumbered References
+
+[Ada82] @i{Formal Definition of the ADA Programming Language},
+Honeywell/Bull 1982 
+
+[EDIF300] @i{EDIF Electronic Design Interchange Format Version 3 0 0
+  EIA Standard 618}, Electronic Industries Association, November 1993
+
+[McCarthy63] John McCarthy @i{Towards a mathematic science of computation}
+  Proceedings of the IFIP Congress 1963
+
+
+@node Function Index, Type Index, References, Top
+@unnumbered Function Index
+@printindex fn
+
+@node Type Index, , Function Index, Top
+@unnumbered Type Index
+@printindex tp
+
+@contents
+@bye
+
+XXX: should say something about
+
+* the `pe_' prefix to avoid name clashes
+* the cryptic nature of name => user should write their own wrapper.

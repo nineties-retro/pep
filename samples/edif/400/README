@@ -1,0 +1,10 @@
+bad.edf
+  http://web.archive.org/web/20050311061427/http://edif-tc.cs.man.ac.uk/parser/ep400-3.3.1-unlicensed-sunos5-sparc.tar.gz:ep400-3.3.1/ivp/test-400.edf
+  This has 
+
+    $ ./pep -l grammars/edif/400/ samples/edif/400/bad.edf
+    samples/edif/400/bad.edf:100 error  (list (unique borderPattern) (unique borderPatternVisible) (unique borderWidth) (unique color) (unique fillPattern) (unique fillPatternVisible) (unique fontRef) (unique horizontalJustification) (unique textHeight) (unique verticalJustification) (unique visible))
+    $ 
+
+good.edf
+  http://web.archive.org/web/20050311061427/http://edif-tc.cs.man.ac.uk/parser/ep400-3.3.1-unlicensed-sunos5-sparc.tar.gz:ep400-3.3.1/ivp/test-400.correct

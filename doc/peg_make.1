@@ -1,0 +1,65 @@
+.\" Copyright (c) 1994-2005 Nineties Retro
+.TH PEG_MAKE 1 "January 2, 1995"
+.UC 4
+.SH NAME
+peg_make \- Generate PEP driver tables from a PE grammar definition
+.SH SYNOPSIS
+.B peg_make
+[
+.B \-p
+.I peg-prefix
+] [
+.B \-o
+.I output-prefix
+]
+.I grammar-prefix
+.br
+.SH DESCRIPTION
+
+.B peg_make
+processes a textual definition of a grammar and produces the necessary
+driver tables for 
+.B pep.
+Once the grammar has been processed,
+.B peg2h,
+.B peg2prolog,
+and
+.B peg2scheme
+can be used to generate C .h, Prolog and Scheme files respectively
+that define symbolic names for all the keywords in the language
+represented by the grammar.
+
+.SH OPTIONS
+
+.TP 1i
+.B \-p peg-prefix
+Defines the directory in which the PE Grammar for PE Grammar's is
+stored.  If this is not specified, then the default is to read the
+grammar with the prefix that the parser was installed with.
+.TP
+.B \-o output-prefix
+Defines the prefix which will be prepended to the name of each output file.
+If this is not defined then the default is "peg.".
+
+.SH EXAMPLES
+
+The following generates the driver tables for the PE grammar for EDIF
+300.  It is assumed that the EDIF 300 grammar is called
+/usr/local/lib/edif/300/peg and the driver tables are to be written to
+the directory /usr/local/lib/edif/300.
+
+.nf
+$ peg_make -o /usr/local/lib/edif/300/ /usr/local/lib/edif/300/peg
+.fi
+
+.SH AUTHOR
+
+Nineties Retro <nineties-retro@mail.com>
+
+.SH COPYRIGHT
+
+Copyright (C) 1994-2015 Nineties Retro <nineties-retro@mail.com>
+
+.SH SEE ALSO
+.BR pep (1)
+.BR peg2h (1)

@@ -1,0 +1,41 @@
+(grammar
+
+  (identifier id)
+
+  (string     str)
+
+  (integer    int)
+
+  (start grammar)
+
+  (keyword alias "alias" id elem (list elem))
+
+  (keyword comment "comment" (list str))
+
+  (alias elem (or id or list optional))
+
+  (keyword grammar
+    "grammar"
+    identifier
+    string
+    integer
+    start
+    (list keyword alias comment))
+
+  (keyword identifier "identifier" id)
+
+  (keyword integer "integer" id)
+
+  (keyword keyword "keyword" id str (list elem))
+
+  (keyword list "list" (list id unique))
+
+  (keyword optional "optional" (list id))
+
+  (keyword or "or" (list id str))
+
+  (keyword start "start" id)
+
+  (keyword string "string" id)
+
+  (keyword unique "unique" id))

@@ -1,0 +1,11 @@
+ebnf
+   Official EDIF v300 grammar provided with IEC 61690-1
+   (https://webstore.iec.ch/publication/5723).
+
+peg
+   EDIF v300 grammar in PEG format created in 1995 using estruct2peg
+   from ebnf.
+
+   peg can also be created by lightly editing
+   ep300-3.3.1/lib/300/edifsyn.dat available via
+   http://web.archive.org/web/20050311061427/http://edif-tc.cs.man.ac.uk/parser/ep300-3.3.1-unlicensed-sunos5-sparc.tar.gz

@@ -1,0 +1,63 @@
+.\" Copyright (c) 1994-2015 Nineties Retro
+.TH PEG2H L "January 2, 1995"
+.UC 4
+.SH NAME
+peg2h \- Generate a C .h file for the keywords in a language
+.SH SYNOPSIS
+.B peg2h
+[
+.B \-b
+.I prefix
+] [
+.B \-a
+.I postfix
+]
+.I grammar
+.br
+.SH DESCRIPTION
+.B peg2h
+Produces (on standard output) a C .h file which contains a definition
+for every keyword in the grammar.  To avoid name clashes with other
+languages it is possible to give a prefix and postfix which will be
+attached to each keyword.
+
+.SH OPTIONS
+
+.TP 1i
+.B \-b prefix
+Define the prefix to attach to each keyword.  If this is not specified
+then the default is "pe_kw_".
+.TP
+.B \-a postfix
+Define the postfix to attach to each keyword.  If this is not specified
+then the default is the empty string ("").
+
+.SH EXAMPLES
+
+The following produces the C .h file for an EDIF 300 grammar which is
+stored in /usr/local/lib/edif/300 with the default prefix.
+
+.nf
+$ peg2h /usr/local/lib/edif/300/ > /usr/local/include/edif/300/edif_kw.h
+.fi
+
+The following produces the C .h file for an EDIF 300 grammar which is
+stored in /usr/local/lib/edif/300 with the prefix "edif_kw_"
+
+.nf
+$ peg2h -b edif_kw_ /usr/local/lib/edif/300/ > /usr/local/include/edif/300/edif_kw.h
+.fi
+
+.SH AUTHOR
+
+Nineties Retro <nineties-retro@mail.com>
+
+.SH COPYRIGHT
+
+Copyright (C) 1994-2015 Nineties Retro <nineties-retro@mail.com>
+
+.SH SEE ALSO
+.BR pep (1)
+.BR peg_make (1)
+.BR peg2scheme (1)
+.BR peg2prolog (1)

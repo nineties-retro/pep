@@ -1,0 +1,45 @@
+.\" Copyright (c) 1994-2005 Nineties Retro
+.TH PEGC 1 "January 2, 1995"
+.UC 4
+.SH NAME
+pegc \- Compile a PE Grammar definition to produce parser driver tables
+.SH SYNOPSIS
+.B pegc
+.I grammar-prefix
+.br
+.SH DESCRIPTION
+
+.B pegc
+processes a textual definition of a grammar and produces the necessary
+driver tables for 
+.B pep.
+
+.SH DIAGNOSTICS
+
+The exit status is 0 if grammar is constructed correctly.
+
+.SH EXAMPLES
+
+The following generates the driver tables for the PE grammar for EDIF
+300.  It is assumed that the EDIF 300 grammar is in
+/usr/local/lib/edif/300/peg.
+
+.nf
+$ pegc /usr/local/lib/edif/300/peg
+.fi
+
+.SH AUTHOR
+
+Nineties Retro <nineties-retro@mail.com>
+
+.SH COPYRIGHT
+
+Copyright (C) 1994-2015 Nineties Retro <nineties-retro@mail.com>
+
+
+.SH SEE ALSO
+.BR pep (1)
+
+Electronic Design Interchange Format Version 300
+Electronic Instustries Association
+EIA Standard 618, December 1993.

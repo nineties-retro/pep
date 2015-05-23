@@ -1,0 +1,96 @@
+(edif schematic_bus_slice
+  (edifVersion 3 0 0)
+  (edifHeader
+    (edifLevel 0)
+    (keywordMap
+      (k0KeywordLevel))
+    (unitDefinitions)
+    (fontDefinitions)
+    (physicalDefaults)
+    (globalPortDefinitions
+      (globalPort a)
+      (globalPort b)
+      (globalPort c)
+      (globalPort d)
+      (globalPortBundle pb
+        (globalPortList
+          (globalPortRef a)
+          (globalPortRef b)
+          (globalPortRef c)
+          (globalPortRef d))))
+    (status
+      (copyright
+        (year 1995)
+        "Nineties Retro")
+      (written
+        (timeStamp
+          (date 1995 8 1)
+          (time 13 32 56))
+        (program "EDIF 300 OTZ"
+          (version "0.2")))
+      (written
+        (timeStamp
+          (date 1995 8 1)
+          (time 13 32 56))
+        (author "Nineties Retro")
+        (dataOrigin "Nineties Retro"))))
+  (library b
+    (libraryHeader
+      (edifLevel 0)
+      (nameCaseSensitivity)
+      (technology
+        (physicalScaling)))
+    (cell top
+      (cellHeader)
+      (cluster &1
+        (interface
+          (interfaceUnits))
+        (clusterHeader)
+        (connectivityView v
+          (connectivityViewHeader
+            (connectivityUnits))
+          (logicalConnectivity
+            (signal &2
+              (signalJoined
+                (globalPortRef b)
+                (globalPortRef a)))
+            (signal &3
+              (signalJoined
+                (globalPortRef d)
+                (globalPortRef c)))
+            (signalGroup &4
+              (signalList
+                (signalRef &2)))
+            (signalGroup &5
+              (signalList
+                (signalRef &3)))
+            (signalGroup &6
+              (signalList
+                (signalGroupRef &4)
+                (signalGroupRef &5))))
+          (connectivityStructure
+            (connectivityBus &7
+              (signalGroupRef &6)
+              (interconnectHeader)
+              (connectivityBusJoined
+                (portJoined
+                  (globalPortRef pb)))
+              (connectivityBusSlice a
+                (signalGroupRef &4)
+                (interconnectHeader)
+                (connectivityBusJoined
+                  (portJoined
+                    (globalPortRef a)
+                    (globalPortRef b)))))))
+        (clusterConfiguration cc
+          (viewRef v))
+        (defaultClusterConfiguration cc))))
+  (design test
+    (cellRef top
+      (libraryRef b))
+    (designHeader
+      (designUnits))
+    (designHierarchy hierarchy
+      (clusterRef &1)
+      (clusterConfigurationRef cc)
+      (designHierarchyHeader))))

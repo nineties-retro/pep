@@ -1,0 +1,1819 @@
+(edif schematicexample
+  (edifVersion 4 0 0)
+  (edifHeader
+    (edifLevel 0)
+    (keywordMap
+      (k3KeywordLevel
+        (k1KeywordAlias colour color)
+        (k1KeywordAlias sOfPCTR schematicOffPageConnectorTemplateRef)
+        (k1KeywordAlias sOnPCTR schematicOnPageConnectorTemplateRef)
+        (k1KeywordAlias sOfPCI schematicOffPageConnectorImplementation)
+        (k1KeywordAlias sOnPCI schematicOnPageConnectorImplementation)
+        (k3KeywordDefine red
+          (k3KeywordParameters)
+          (k3Generate (k2Build colour
+            (k2Literal 100) (k2Literal 0) (k2Literal 0))))
+        (k3KeywordDefine white
+          (k3KeywordParameters)
+          (k3Generate (k2Build colour
+            (k2Literal 100) (k2Literal 100) (k2Literal 100))))
+        (k3KeywordDefine yellow
+          (k3KeywordParameters)
+          (k3Generate (k2Build colour
+            (k2Literal 100) (k2Literal 100) (k2Literal 0))))
+        (k3KeywordDefine lightBlue
+          (k3KeywordParameters)
+          (k3Generate (k2Build colour
+            (k2Literal 0) (k2Literal 100) (k2Literal 100))))
+        (k3KeywordDefine black
+          (k3KeywordParameters)
+          (k3Generate (k2Build colour
+            (k2Literal 0) (k2Literal 0) (k2Literal 0))))
+        (k3KeywordDefine green
+          (k3KeywordParameters)
+          (k3Generate (k2Build colour
+            (k2Literal 0) (k2Literal 100) (k2Literal 0))))
+        (k3keywordDefine sOfPCIGen
+          (k3KeywordParameters
+            (k3Formal ref (k2Required))
+            (k3Formal lib (k2Required))
+            (k3Formal inst (k3Collector))
+            (k3Formal pos (k3Collector)))
+          (k3Generate
+            (K3ForEach
+              (k3FormalList inst pos)
+              (k3Build SOfPCI
+                (k2Actual inst)
+                (k3Build sOfPCTR (k2Actual ref)
+                  (k3Build libraryRef (k2Actual lib)))
+                (k3Build transform (k3Build origin (k2Actual pos)))))))))
+    (unitDefinitions
+      (unit mm 1 (e 1 -3) (meter 1))
+      (unit inch 1 (e 254 -5) (meter 1))
+      (unit pt 72 (e 254 -5) (meter 1)))
+    (fontDefinitions
+      (fonts (setDistance (unitRef pt))
+        (font palatino
+          (typeface "Palatino")
+          (fontProportions
+            (fontHeight 10)
+            (fontDescent 2)
+            (fontCapitalHeight 6)
+            (fontWidth 3))
+          (proportionalFont))))
+    (physicalDefaults
+      (schematicRequiredDefaults
+        (schematicMetric
+          (setDistance (unitRef mm))
+          (hotspotGrid 2))
+        (fontRef palatino)
+        (textHeight 3)))
+    (status
+      (copyright
+        (year 1996) "University of Manchester")
+      (comment "EDIF Version 4 0 0 schematic example")
+      (comment "We make no warranty about the suitability of this file")
+      (comment "for any purpose")
+      (comment "If you discover any errors please report them, by")
+      (comment "emailing: edif-support@cs.man.ac.uk")
+      (written
+        (timeStamp
+          (date 1996 11 28)
+          (time 17 2 00))
+        (author "Nigel Whitaker")
+        (dataOrigin "University of Manchester"))))
+  (library celllib
+    (libraryHeader
+      (edifLevel 0)
+      (nameCaseSensitivity)
+      (technology
+        (physicalScaling
+          (schematicUnits
+            (schematicMetric
+              (setDistance (unitRef mm))
+              (hotspotGrid 2)
+              (nominalHotspotGrid 10))))
+        (figureGroup border_graphics
+          (pathWidth
+            (minimalWidth))
+          (displayAttributes
+            (white)
+            (fillPattern
+              (pixelPattern 1
+                (pixelRow (false))))
+            (fillPatternVisible
+              (false))
+            (borderPattern
+              (pixelPattern 1
+                (pixelRow (true))))
+            (borderPatternVisible
+              (true))))
+        (figureGroup border_text
+          (displayAttributes
+            (white)
+            (textHeight 3)
+            (horizontalJustification (leftJustify))
+            (verticalJustification (middleJustify))))
+        (figureGroup symbol_graphics
+          (pathWidth
+            (minimalWidth))
+          (displayAttributes
+            (red)
+            (fillPattern
+              (pixelPattern 1
+                (pixelRow (false))))
+            (fillPatternVisible
+              (false))
+            (borderPattern
+              (pixelPattern 1
+                (pixelRow (true))))
+            (borderPatternVisible
+              (true))))
+        (figureGroup symbol_text
+          (displayAttributes
+            (yellow)
+            (textHeight 3)
+            (verticalJustification (middleJustify))))))
+    (schematicFigureMacro bubble
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 1 1)
+            (pt -1 -1))))
+      (figure symbol_graphics
+        (circle
+          (pt -1 0)
+          (pt 1 0))))
+    (schematicSymbolPortTemplate omp
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 0 0)
+            (pt 20 0))))
+      (hotspot
+        (pt 20 0)
+        (schematicWireAffinity (narrowWire)))
+      (output)
+      (figure symbol_graphics
+        (path
+          (pointList
+            (pt 0 0)
+            (pt 20 0)))
+        (dot
+          (pt 20 0)))
+      (portAttributeDisplay
+        (portNameDisplay
+          (display
+            (figureGroupOverride symbol_text
+              (displayAttributes
+                (horizontalJustification (centerJustify))))
+            (transform
+              (origin
+                (pt -2 0)))))))
+    (schematicSymbolPortTemplate omp_inv
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 0 -1)
+            (pt 20 1))))
+      (hotspot
+        (pt 20 0)
+        (schematicWireAffinity (narrowWire)))
+      (output)
+      (schematicComplexFigure
+        (schematicFigureMacroRef bubble)
+        (transform
+          (origin
+            (pt 1 0))))
+      (figure symbol_graphics
+        (path
+          (pointList
+            (pt 2 0)
+            (pt 20 0)))
+        (dot
+          (pt 20 0)))
+      (portAttributeDisplay
+        (portNameDisplay
+          (display
+            (figureGroupOverride symbol_text
+              (displayAttributes
+                (horizontalJustification (centerJustify))))
+            (transform
+              (origin
+                (pt -2 0)))))))
+    (schematicSymbolPortTemplate imp
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 0 0)
+            (pt -20 0))))
+      (hotspot
+        (pt -20 0)
+        (schematicWireAffinity (narrowWire)))
+      (input)
+      (figure symbol_graphics
+        (path
+          (pointList
+            (pt 0 0)
+            (pt -20 0)))
+        (dot
+          (pt -20 0)))
+      (portAttributeDisplay
+        (portNameDisplay
+          (display
+            (figureGroupOverride symbol_text
+              (displayAttributes
+                (horizontaljustification (centerJustify))))
+            (transform
+              (origin
+                (pt 2 0)))))))
+    (schematicSymbolPortTemplate imp_inv
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 0 -1)
+            (pt -20 1))))
+      (hotspot
+        (pt -20 0)
+        (schematicWireAffinity (narrowWire)))
+      (input)
+      (schematicComplexFigure
+        (schematicFigureMacroRef bubble)
+        (transform
+          (origin
+            (pt -1 0))))
+      (figure symbol_graphics
+        (path
+          (pointList
+            (pt -2 0)
+            (pt -20 0)))
+        (dot
+          (pt -20 0)))
+      (portAttributeDisplay
+        (portNameDisplay
+          (display
+            (figureGroupOverride symbol_text
+              (displayAttributes
+                (horizontalJustification (centerJustify))))
+            (transform
+              (origin
+                (pt 2 0)))))))
+    (schematicSymbolPortTemplate imp_clk
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 2 -2)
+            (pt -20 2))))
+      (hotspot
+        (pt -20 0)
+        (schematicWireAffinity (narrowWire)))
+      (input)
+      (figure symbol_graphics
+        (path
+          (pointList
+            (pt 0 2)
+            (pt 2 0)
+            (pt 0 -2)))
+        (path
+          (pointList
+            (pt 0 0)
+            (pt -20 0)))
+        (dot
+          (pt -20 0)))
+      (portAttributeDisplay
+        (portNameDisplay
+          (display
+            (figureGroupOverride symbol_text
+              (displayAttributes
+                (horizontalJustification (leftJustify))))
+            (transform
+              (origin
+                (pt 4 0)))))))
+    (schematicOffPageConnectorTemplate offpc
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 2 2)
+            (pt -2 -2))))
+      (hotspot
+        (pt 0 0))
+      (figure symbol_graphics
+        (rectangle
+          (pt 2 2)
+          (pt -2 -2))
+        (path
+          (pointList
+            (pt 2 2)
+            (pt -2 -2)))
+        (path
+          (pointList
+            (pt -2 2)
+            (pt 2 -2)))
+        (dot
+          (pt 0 0))))
+    (schematicOnPageConnectorTemplate onpc
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 2 2)
+            (pt -2 -2))))
+      (hotspot
+        (pt 0 0))
+      (figure symbol_graphics
+        (rectangle
+          (pt 2 2)
+          (pt -2 -2))
+        (dot
+          (pt 0 0))))
+    (schematicInterconnectTerminatorTemplate term
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle (pt 2 2) (pt -2 -2))))
+      (hotspot (pt 0 0))
+      (figure symbol_graphics
+        (polygon (pointList (pt -2 0) (pt 0 -2) (pt 2 0) (pt 0 2) (pt -2 0)))
+        (dot (pt 0 0))))
+    (schematicMasterPortTemplate mp_left
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 0 2)
+            (pt -4 -2))))
+      (hotspot
+        (pt 0 0))
+      (unrestricted)
+      (figure symbol_graphics
+        (polygon
+          (pointList
+            (pt -2 2)
+            (pt 0 0)
+            (pt -2 -2)
+            (pt -4 -2)
+            (pt -4 2)
+            (pt -2 2))))
+      (portAttributeDisplay
+        (portNameDisplay
+          (display
+            (figureGroupOverride symbol_text
+              (displayAttributes
+                (horizontalJustification (rightJustify))
+                (verticalJustification (middleJustify))))
+            (transform
+              (origin
+                (pt 0 3)))))))
+    (schematicRipperTemplate ripper
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 0 0)
+            (pt 2 2))))
+      (ripperHotspot netend
+        (hotspot
+          (pt 0 0)
+          (schematicWireAffinity (narrowWire))))
+      (ripperHotspot busend
+        (hotspot
+          (pt 2 2)
+          (schematicWireAffinity (unrestricted))))
+      (figure
+        (figureGroupOverride symbol_graphics
+          (displayAttributes
+            (fillPattern
+              (pixelPattern 1
+                (pixelRow (true))))
+            (fillPatternVisible
+              (true))))
+        (path
+          (pointList
+            (pt 0 0)
+            (pt 2 2)))))
+    (schematicJunctionTemplate junction
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt -1 -1)
+            (pt 1 1))))
+      (hotspot
+        (pt 0 0))
+      (figure
+        (figureGroupOverride symbol_graphics
+          (displayAttributes
+            (fillPattern
+              (pixelPattern 1
+                (pixelRow (true))))
+            (fillPatternVisible
+              (true))))
+        (circle
+          (pt -1 0)
+          (pt 1 0))))
+    (pageBorderTemplate pbt_a4
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 0 0)
+            (pt 280 180))))
+      (usableArea
+        (rectangle
+          (pt 0 20)
+          (pt 280 180)))
+      (figure border_graphics
+        (rectangle
+          (pt 0 0)
+          (pt 280 180))
+        (path
+          (pointList
+            (pt 0 20)
+            (pt 280 20)))))
+    (pageTitleBlockTemplate ptbt_a4
+      (schematicTemplateHeader
+        (schematicUnits)
+        (originalBoundingBox
+          (rectangle
+            (pt 0 0)
+            (pt 280 20))))
+      (figure border_graphics
+        (rectangle
+          (pt 2 2)
+          (pt 278 18)))
+      (figure border_graphics
+        (path
+          (pointList
+            (pt 2 10)
+            (pt 278 10))))
+      (figure border_graphics
+        (path
+          (pointList
+            (pt 70 2)
+            (pt 70 18))))
+      (figure border_graphics
+        (path
+          (pointList
+            (pt 140 2)
+            (pt 140 18))))
+      (figure border_graphics
+        (path
+          (pointList
+            (pt 210 2)
+            (pt 210 18))))
+      (annotate "CompanyName: "
+        (display border_text
+          (transform
+            (origin
+              (pt 4 14)))))
+      (annotate "Page Ident: "
+        (display border_text
+          (transform
+            (origin
+              (pt 212 6)))))
+      (annotate "Page Title: "
+        (display border_text
+          (transform
+            (origin
+              (pt 212 14)))))
+      (annotate "Size: "
+        (display border_text
+          (transform
+            (origin
+              (pt 72 6)))))
+      (annotate "Contract: "
+        (display border_text
+          (transform
+            (origin
+              (pt 72 14)))))
+      (pageTitleBlockAttributes
+        (companyName "Uni. of Manchester")
+        (drawingSize "ISO A4"))
+      (pageTitleBlockAttributeDisplay
+        (companyNameDisplay
+          (addDisplay
+            (display border_text
+              (transform
+                (origin
+                  (pt 30 14))))))
+        (contractDisplay
+          (addDisplay
+            (display border_text
+              (transform
+                (origin
+                  (pt 92 14))))))
+        (revisionDisplay
+          (addDisplay
+            (display
+              (figureGroupOverride border_text
+                (displayAttributes
+                  (horizontalJustification (centerJustify))))
+              (transform
+                (origin
+                  (pt 175 14))))))
+        (pageTitleDisplay
+          (addDisplay
+            (display border_text
+              (transform
+                (origin
+                  (pt 236 14))))))
+        (drawingDescriptionDisplay
+          (addDisplay
+            (display
+              (figureGroupOverride border_text
+                (displayAttributes
+                  (horizontalJustification (centerJustify))))
+              (transform
+                (origin
+                  (pt 36 6))))))
+        (drawingSizeDisplay
+          (addDisplay
+            (display border_text
+              (transform
+                (origin
+                  (pt 84 6))))))
+        (originalDrawingDateDisplay
+          (addDisplay
+            (display
+              (figureGroupOverride border_text
+                (displayAttributes
+                  (horizontalJustification (centerJustify))))
+              (transform
+                (origin
+                  (pt 175 6))))))
+        (pageIdentificationDisplay
+          (addDisplay
+            (display border_text
+              (transform
+                (origin
+                  (pt 236 6))))))))
+    (cell flipflop
+      (cellHeader)
+      (cluster symbols
+        (interface
+          (interfaceUnits)
+          (port qbar
+            (outputPort))
+          (port q
+            (outputPort))
+          (port clk
+            (inputPort))
+          (port set
+            (inputPort))
+          (port reset
+            (inputPort))
+          (port d
+            (inputPort)))
+        (clusterHeader)
+        (schematicSymbol ffsymbol
+          (schematicSymbolHeader
+            (schematicUnits)
+            (originalBoundingBox
+              (rectangle
+                (pt 0 0)
+                (pt 70 68))))
+          (figure symbol_graphics
+            (path
+              (pointList
+                (pt 20 10)
+                (pt 50 10)))
+            (rectangle
+              (pt 20 0)
+              (pt 50 60)))
+          (cellNameDisplay
+            (display
+              (figureGroupOverride symbol_text
+                (displayAttributes
+                  (horizontalJustification (centerJustify))))
+              (transform
+                (origin
+                  (pt 35 5)))))
+          (instanceNameDisplay
+            (display
+              (figureGroupOverride symbol_text
+                (displayAttributes
+                  (verticalJustification (bottomJustify))
+                  (horizontalJustification (centerJustify))))
+              (transform
+                (origin
+                  (pt 35 62)))))
+          (schematicSymbolPortImplementation qbar
+            (portRef qbar)
+            (schematicSymbolPortTemplateRef omp_inv)
+            (transform
+              (origin
+                (pt 50 30))))
+          (schematicSymbolPortImplementation q
+            (portRef q)
+            (schematicSymbolPortTemplateRef omp)
+            (transform
+              (origin
+                (pt 50 50))))
+          (schematicSymbolPortImplementation d
+            (portRef d)
+            (schematicSymbolPortTemplateRef imp)
+            (transform
+              (origin
+                (pt 20 20))))
+          (schematicSymbolPortImplementation clk
+            (portRef clk)
+            (schematicSymbolPortTemplateRef imp_clk)
+            (transform
+              (origin
+                (pt 20 50))))
+          (schematicSymbolPortImplementation set
+            (portRef set)
+            (schematicSymbolPortTemplateRef imp_inv)
+            (transform
+              (origin
+                (pt 20 40))))
+          (schematicSymbolPortImplementation reset
+            (portRef reset)
+            (schematicSymbolPortTemplateRef imp_inv)
+            (transform
+              (origin
+                (pt 20 30)))))
+        (schematicSymbol ffsymbolnoportnames
+          (schematicSymbolHeader
+            (schematicUnits)
+            (originalBoundingBox
+              (rectangle
+                (pt 0 0)
+                (pt 70 60))))
+          (figure symbol_graphics
+            (path
+              (pointList
+                (pt 20 10)
+                (pt 50 10)))
+            (rectangle
+              (pt 20 0)
+              (pt 50 60)))
+          (cellNameDisplay
+            (display
+              (figureGroupOverride symbol_text
+                (displayAttributes
+                  (horizontalJustification (centerJustify))))
+              (transform
+                (origin
+                  (pt 35 5)))))
+          (instanceNameDisplay
+            (display
+              (figureGroupOverride symbol_text
+                (displayAttributes
+                  (verticalJustification (bottomJustify))
+                  (horizontalJustification (centerJustify))))
+              (transform
+                (origin
+                  (pt 35 62)))))
+          (comment "rather than override to null string, EDIF should")
+          (comment "allow a removeDisplay")
+          (schematicSymbolPortImplementation qbar
+            (portRef qbar)
+            (schematicSymbolPortTemplateRef omp_inv)
+            (transform
+              (origin
+                (pt 50 30)))
+            (portAttributeDisplay
+              (portNameDisplay
+                (displayNameOverride "" (removeDisplay)))))
+          (schematicSymbolPortImplementation q
+            (portRef q)
+            (schematicSymbolPortTemplateRef omp)
+            (transform
+              (origin
+                (pt 50 50)))
+            (portAttributeDisplay
+              (portNameDisplay
+                (displayNameOverride "" (removeDisplay)))))
+          (schematicSymbolPortImplementation d
+            (portRef d)
+            (schematicSymbolPortTemplateRef imp)
+            (transform
+              (origin
+                (pt 20 20)))
+            (portAttributeDisplay
+              (portNameDisplay
+                (displayNameOverride "" (removeDisplay)))))
+          (schematicSymbolPortImplementation clk
+            (portRef clk)
+            (schematicSymbolPortTemplateRef imp_clk)
+            (transform
+              (origin
+                (pt 20 50)))
+            (portAttributeDisplay
+              (portNameDisplay
+                (displayNameOverride "" (removeDisplay)))))
+          (schematicSymbolPortImplementation set
+            (portRef set)
+            (schematicSymbolPortTemplateRef imp_inv)
+            (transform
+              (origin
+                (pt 20 40)))
+            (portAttributeDisplay
+              (portNameDisplay
+                (displayNameOverride "" (removeDisplay)))))
+          (schematicSymbolPortImplementation reset
+            (portRef reset)
+            (schematicSymbolPortTemplateRef imp_inv)
+            (transform
+              (origin
+                (pt 20 30)))
+            (portAttributeDisplay
+              (portNameDisplay
+                (displayNameOverride "" (removeDisplay))))))
+        (clusterConfiguration CC1 (leaf))
+        (defaultClusterConfiguration CC1))))
+  (library designLib
+    (libraryHeader
+      (edifLevel 0)
+      (nameCaseSensitivity)
+      (technology
+        (physicalScaling
+          (schematicUnits
+            (schematicMetric
+              (setDistance (unitRef mm))
+              (hotspotGrid 2)
+              (nominalHotspotGrid 10))))
+        (figureGroup bus_graphics
+          (pathWidth 2)
+          (displayAttributes
+            (lightBlue)
+            (fillPattern
+              (pixelPattern 1
+                (pixelRow (true))))
+            (fillPatternVisible
+              (true))
+            (borderPattern
+              (pixelPattern 1
+                 (pixelRow (true))))
+            (borderPatternVisible
+              (true))))
+        (figureGroup bus_text
+          (displayAttributes
+            (yellow)
+            (textHeight 4)))
+        (figureGroup net_graphics
+          (pathWidth
+            (minimalWidth))
+          (displayAttributes
+            (green)
+            (fillPattern
+              (pixelPattern 1
+                (pixelRow (true))))
+            (fillPatternVisible
+              (true))
+            (borderPattern
+              (pixelPattern 1
+                (pixelRow (true))))
+            (borderPatternVisible
+              (true))))
+        (figureGroup net_text
+          (displayAttributes
+            (yellow)
+            (textHeight 4)))))
+    (cell ripplecounter
+      (cellHeader)
+      (cluster ripplecluster
+        (interface
+          (interfaceUnits)
+          (port &0 (outputPort))
+          (port &1 (outputPort))
+          (port &2 (outputPort))
+          (port &3 (outputPort))
+          (portBundle count
+            (portList (portRef &0) (portRef &1) (portRef &2) (portRef &3)))
+          (port input 
+            (inputPort))
+          (port set
+            (inputPort))
+          (port reset
+            (inputPort)))
+        (clusterHeader)
+        (schematicView schematicconnectivity
+          (schematicViewHeader
+            (schematicUnits))
+          (logicalConnectivity
+            (instance &0
+              (clusterRef symbols
+                (cellRef flipflop
+                  (libraryRef celllib)))
+              (nameInformation
+                (primaryName "ff[0]"
+                  (nameStructure
+                    (complexName "ff"
+                      (nameDimension (nameDimensionStructure 0))))
+                  (displayName "ff[0]")
+                  (generated))))
+            (instance &1
+              (clusterRef symbols
+                (cellRef flipflop
+                  (libraryRef celllib)))
+              (nameInformation
+                (primaryName "ff[1]"
+                  (nameStructure
+                    (complexName "ff"
+                      (nameDimension (nameDimensionStructure 1))))
+                  (displayName "ff[1]")
+                  (generated))))
+            (instance &2
+              (clusterRef symbols
+                (cellRef flipflop
+                  (libraryRef celllib)))
+              (nameInformation
+                (primaryName "ff[2]"
+                  (nameStructure
+                    (complexName "ff"
+                      (nameDimension (nameDimensionStructure 2))))
+                  (displayName "ff[2]")
+                  (generated))))
+            (instance &3
+              (clusterRef symbols
+                (cellRef flipflop
+                  (libraryRef celllib)))
+              (nameInformation
+                (primaryName "ff[3]"
+                  (nameStructure
+                    (complexName "ff"
+                      (nameDimension (nameDimensionStructure 3))))
+                  (displayName "ff[3]")
+                  (generated))))
+            (signal &0
+              (signalJoined
+                (portRef input)
+                (portInstanceRef clk
+                  (instanceRef &0))))
+            (signal &1
+              (signalJoined
+                (portRef set)
+                (portInstanceRef set
+                  (instanceRef &0))
+                (portInstanceRef set
+                  (instanceRef &1))
+                (portInstanceRef set
+                  (instanceRef &2))
+                (portInstanceRef set
+                  (instanceRef &3))))
+            (signal &2
+              (signalJoined
+                (portRef reset)
+                (portInstanceRef reset
+                  (instanceRef &0))
+                (portInstanceRef reset
+                  (instanceRef &1))
+                (portInstanceRef reset
+                  (instanceRef &2))
+                (portInstanceRef reset
+                  (instanceRef &3))))
+            (signal &3
+              (signalJoined
+                (portInstanceRef d
+                  (instanceRef &0))
+                (portInstanceRef qbar
+                  (instanceRef &0))
+                (portInstanceRef clk
+                  (instanceRef &1))))
+            (signal &4
+              (signalJoined
+                (portInstanceRef d
+                  (instanceRef &1))
+                (portInstanceRef qbar
+                  (instanceRef &1))
+                (portInstanceRef clk
+                  (instanceRef &2))))
+            (signal &5
+              (signalJoined
+                (portInstanceRef d
+                  (instanceRef &2))
+                (portInstanceRef qbar
+                  (instanceRef &2))
+                (portInstanceRef clk
+                  (instanceRef &3))))
+            (signal &6
+              (signalJoined
+                (portInstanceRef d
+                  (instanceRef &3))
+                (portInstanceRef qbar
+                  (instanceRef &3))))
+            (signal &7
+              (signalJoined
+                (portInstanceRef q
+                  (instanceRef &0))
+                (portRef &0)))
+            (signalGroup &7g (signalList (signalRef &7)))
+            (signal &8
+              (signalJoined
+                (portInstanceRef q
+                  (instanceRef &1))
+                (portRef &1)))
+            (signalGroup &8g (signalList (signalRef &8)))
+            (signal &9
+              (signalJoined
+                (portInstanceRef q
+                  (instanceRef &2))
+                (portRef &2)))
+            (signalGroup &9g (signalList (signalRef &9)))
+            (signal &10
+              (signalJoined
+                (portInstanceRef q
+                  (instanceRef &3))
+                (portRef &3)))
+            (signalGroup &10g (signalList (signalRef &10)))
+            (signalGroup &11g
+              (signalList
+                (signalRef &7)
+                (signalRef &8)
+                (signalRef &9)
+                (signalRef &10))))
+          (schematicImplementation
+            (totalPages 2)
+            (page &1
+              (pageHeader
+                (originalBoundingBox
+                  (rectangle
+                    (pt 0 0)
+                    (pt 280 180)))
+                (backgroundColor
+                  (black))
+                (pageBorder
+                  (pageBorderTemplateRef pbt_a4
+                    (libraryRef celllib))
+                  (transform
+                    (origin
+                      (pt 0 0)))))
+              (pageTitleBlock ptb1
+                (pageTitleBlockTemplateRef ptbt_a4
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 0 0)))
+                (pageTitleBlockAttributes
+                  (contract "ESPRIT 2072 - ECIP")
+                  (revision "$Revision: 1.1 $")
+                  (drawingDescription "Ripple Counter")
+                  (originalDrawingDate
+                    (date 1992 6 30))
+                  (pageTitle "Bits 0 and 1")
+                  (pageIdentification "1 of 2")))
+              (schematicInstanceImplementation i0
+                (instanceRef &0)
+                (schematicSymbolRef ffsymbol)
+                (transform
+                  (origin
+                    (pt 40 80))))
+              (schematicInstanceImplementation i1
+                (instanceRef &1)
+                (schematicSymbolRef ffsymbol)
+                (transform
+                  (origin
+                    (pt 160 80))))
+              (schematicMasterPortImplementation mp1
+                (schematicMasterPortTemplateRef mp_left
+                  (libraryRef celllib))
+                (portRef count)
+                (transform
+                  (origin
+                    (pt 10 160))))
+              (schematicMasterPortImplementation mp2
+                (schematicMasterPortTemplateRef mp_left
+                  (libraryRef celllib))
+                (portRef input)
+                (transform
+                  (origin
+                    (pt 10 130))))
+              (schematicMasterPortImplementation mp3
+                (schematicMasterPortTemplateRef mp_left
+                  (libraryRef celllib))
+                (portRef set)
+                (transform
+                  (origin
+                    (pt 10 40))))
+              (schematicMasterPortImplementation mp4
+                (schematicMasterPortTemplateRef mp_left
+                  (libraryRef celllib))
+                (portRef reset)
+                (transform
+                  (origin
+                    (pt 10 50))))
+              (sOfPCIGen offpc celllib opc1 (pt 260 160) opc2 (pt 260 130)
+                         opc3 (pt 260 40) opc4 (pt 260 50))
+              (schematicRipperImplementation r1
+                (schematicRipperTemplateRef ripper
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 110 158))))
+              (schematicRipperImplementation r2
+                (schematicRipperTemplateRef ripper
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 230 158))))
+              (schematicBus count
+                (signalGroupRef &11g)
+                (schematicInterconnectHeader (schematicWireStyle (wideWire)))
+                (schematicBusJoined
+                  (portJoined
+                    (portRef count))
+                  (schematicMasterPortImplementationRef mp1)
+                  (ripperHotspotRef busend
+                    (schematicRipperImplementationRef r1))
+                  (ripperHotspotRef busend
+                    (schematicRipperImplementationRef r2))
+                  (schematicOffPageConnectorImplementationRef opc1))
+                (schematicBusDetails
+                  (schematicBusGraphics
+                    (figure bus_graphics
+                      (path
+                        (pointList
+                          (pt 10 160)
+                          (pt 112 160)
+                          (pt 140 160)
+                          (pt 232 160)
+                          (pt 260 160))))))
+                (schematicInterconnectAttributeDisplay
+                  (interconnectAttachedText
+                    (pt 140 160)
+                    (interconnectNameDisplay
+                      (display bus_text
+                        (transform
+                          (origin
+                            (pt 140 162)))))))
+                (schematicBusSlice busslice0
+                  (signalGroupRef &7g)
+                  (schematicInterconnectHeader)
+                  (schematicBusJoined
+                    (portJoined
+                      (portInstanceRef q
+                        (instanceRef &0)))
+                    (ripperHotspotRef netend
+                      (schematicRipperImplementationRef r1)))
+                  (schematicBusDetails
+                    (schematicBusGraphics
+                      (figure net_graphics
+                        (path
+                          (pointList
+                            (pt 110 130)
+                            (pt 110 158)))))))
+                (schematicBusSlice busslice1
+                  (signalGroupRef &8g)
+                  (schematicInterconnectHeader)
+                  (schematicBusJoined
+                    (portJoined
+                      (portInstanceRef q
+                        (instanceRef &1)))
+                    (ripperHotspotRef netend
+                      (schematicRipperImplementationRef r2)))
+                  (schematicBusDetails
+                    (schematicBusGraphics
+                      (figure net_graphics
+                        (path
+                          (pointList
+                            (pt 230 130)
+                            (pt 230 158))))))))
+              (schematicNet clockin
+                (signalRef &0)
+                (schematicInterconnectHeader)
+                (schematicNetJoined
+                  (joinedAsSignal)
+                  (schematicMasterPortImplementationRef mp2))
+                (schematicNetDetails
+                  (schematicNetGraphics
+                    (figure net_graphics
+                      (path
+                        (pointList
+                          (pt 10 130)
+                          (pt 30 130)
+                          (pt 40 130))))))
+                (schematicInterconnectAttributeDisplay
+                  (interconnectAttachedText
+                    (pt 30 130)
+                    (interconnectNameDisplay
+                      (display net_text
+                        (transform
+                          (origin
+                            (pt 30 132))))))))
+              (schematicNet set
+                (signalRef &1)
+                (schematicInterconnectHeader
+                  (schematicJunctionImplementation j1
+                    (schematicJunctionTemplateRef junction
+                      (libraryRef celllib))
+                    (transform
+                      (origin
+                        (pt 20 40))))
+                  (schematicJunctionImplementation j3
+                    (schematicJunctionTemplateRef junction
+                      (libraryRef celllib))
+                    (transform
+                      (origin
+                        (pt 140 40)))))
+                (schematicNetJoined
+                  (portJoined
+                    (portRef set)
+                    (portInstanceRef set
+                      (instanceRef &0))
+                    (portInstanceRef set
+                      (instanceRef &1)))
+                  (schematicMasterPortImplementationRef mp3)
+                  (schematicJunctionImplementationRef j1)
+                  (schematicJunctionImplementationRef j3)
+                  (schematicOffPageConnectorImplementationRef opc3))
+                (schematicNetDetails
+                  (schematicSubNetSet
+                    (schematicSubNet sn1
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portRef set))
+                        (schematicMasterPortImplementationRef mp3)
+                        (schematicJunctionImplementationRef j1)
+                        (schematicJunctionImplementationRef j3)
+                        (schematicOffPageConnectorImplementationRef opc3))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 10 40)
+                                (pt 20 40)
+                                (pt 140 40)
+                                (pt 260 40)))))))
+                    (schematicSubNet sn2
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef set
+                            (instanceRef &0)))
+                        (schematicJunctionImplementationRef j1))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 20 40)
+                                (pt 20 120)
+                                (pt 40 120)))))))
+                    (schematicSubNet sn3
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef set
+                            (instanceRef &1)))
+                        (schematicJunctionImplementationRef j3))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 140 40)
+                                (pt 140 120)
+                                (pt 160 120))))))))))
+              (schematicNet reset
+                (signalRef &2)
+                (schematicInterconnectHeader
+                  (schematicJunctionImplementation j2
+                    (schematicJunctionTemplateRef junction
+                      (libraryRef celllib))
+                    (transform
+                      (origin
+                        (pt 30 50))))
+                  (schematicJunctionImplementation j4
+                    (schematicJunctionTemplateRef junction
+                      (libraryRef celllib))
+                    (transform
+                      (origin
+                        (pt 150 50)))))
+                (schematicNetJoined
+                  (portJoined
+                    (portRef reset)
+                    (portInstanceRef reset
+                      (instanceRef &0))
+                    (portInstanceRef reset
+                      (instanceRef &1)))
+                  (schematicMasterPortImplementationRef mp4)
+                  (schematicJunctionImplementationRef j2)
+                  (schematicJunctionImplementationRef j4)
+                  (schematicOffPageConnectorImplementationRef opc4))
+                (schematicNetDetails
+                  (schematicSubNetSet
+                    (schematicSubNet sn1
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portRef reset))
+                        (schematicMasterPortImplementationRef mp4)
+                        (schematicJunctionImplementationRef j2)
+                        (schematicJunctionImplementationRef j4)
+                        (schematicOffPageConnectorImplementationRef opc4))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 10 50)
+                                (pt 30 50)
+                                (pt 150 50)
+                                (pt 260 50)))))))
+                    (schematicSubNet sn2
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef reset
+                            (instanceRef &0)))
+                        (schematicJunctionImplementationRef j2))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 30 50)
+                                (pt 30 110)
+                                (pt 40 110)))))))
+                    (schematicSubNet sn3
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef reset
+                            (instanceRef &1)))
+                        (schematicJunctionImplementationRef j4))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 150 50)
+                                (pt 150 110)
+                                (pt 160 110))))))))))
+              (schematicNet qb0
+                (signalRef &3)
+                (schematicInterconnectHeader
+                  (schematicJunctionImplementation j5
+                    (schematicJunctionTemplateRef junction
+                      (libraryRef celllib))
+                    (transform
+                      (origin
+                        (pt 110 110)))))
+                (schematicNetJoined
+                  (joinedAsSignal)
+                  (schematicJunctionImplementationRef j5))
+                (schematicNetDetails
+                  (schematicSubNetSet
+                    (schematicSubNet sn1
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef d
+                            (instanceRef &0))
+                          (portInstanceRef qbar
+                            (instanceRef &0)))
+                        (schematicJunctionImplementationRef j5))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 40 100)
+                                (pt 40 70)
+                                (pt 110 70)
+                                (pt 110 110)))))))
+                    (schematicSubNet sn2
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef clk
+                            (instanceRef &1))
+                          (portInstanceRef qbar
+                            (instanceRef &0)))
+                        (schematicJunctionImplementationRef j5))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 110 110)
+                                (pt 120 110)
+                                (pt 120 130)
+                                (pt 160 130)))))))))
+                (schematicInterconnectAttributeDisplay
+                  (interconnectAttachedText
+                    (pt 110 110)
+                    (interconnectNameDisplay
+                      (display net_text
+                        (transform
+                          (origin
+                            (pt 100 112))))))))
+              (schematicNet qb1
+                (signalRef &4)
+                (schematicInterconnectHeader
+                  (schematicJunctionImplementation j6
+                    (schematicJunctionTemplateRef junction
+                      (libraryRef celllib))
+                    (transform
+                      (origin
+                        (pt 230 110)))))
+                (schematicNetJoined
+                  (portJoined
+                    (portInstanceRef d
+                      (instanceRef &1))
+                    (portInstanceRef qbar
+                      (instanceRef &1)))
+                  (schematicJunctionImplementationRef j6)
+                  (schematicOffPageConnectorImplementationRef opc2))
+                (schematicNetDetails
+                  (schematicSubNetSet
+                    (schematicSubNet sn1
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef d
+                            (instanceRef &1))
+                          (portInstanceRef qbar
+                            (instanceRef &1)))
+                        (schematicJunctionImplementationRef j6))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 160 100)
+                                (pt 160 70)
+                                (pt 230 70)
+                                (pt 230 110)))))))
+                    (schematicSubNet sn2
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef qbar
+                            (instanceRef &1)))
+                        (schematicJunctionImplementationRef j6)
+                        (schematicOffPageConnectorImplementationRef opc2))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 230 110)
+                                (pt 240 110)
+                                (pt 240 130)
+                                (pt 260 130)))))))))
+                (schematicInterconnectAttributeDisplay
+                  (interconnectAttachedText
+                    (pt 230 110)
+                    (interconnectNameDisplay
+                      (display net_text
+                        (transform
+                          (origin
+                            (pt 220 112)))))))))
+            (page &2
+              (pageHeader
+                (originalBoundingBox
+                  (rectangle
+                    (pt 0 0)
+                    (pt 280 180)))
+                (backgroundColor
+                  (black))
+                (pageBorder
+                  (pageBorderTemplateRef pbt_a4
+                    (libraryRef celllib))
+                  (transform
+                    (origin
+                      (pt 0 0)))))
+              (pageTitleBlock ptb1
+                (pageTitleBlockTemplateRef ptbt_a4
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 0 0)))
+                (pageTitleBlockAttributes
+                  (contract "ESPRIT 2072 - ECIP")
+                  (revision "$Revision: 1.1 $")
+                  (drawingDescription "Ripple Counter")
+                  (originalDrawingDate
+                    (date 1992 6 30))
+                  (pageTitle "Bits 2 and 3")
+                  (pageIdentification "2 of 2")))
+              (schematicInstanceImplementation i2
+                (instanceRef &2)
+                (schematicSymbolRef ffsymbol)
+                (transform
+                  (origin
+                    (pt 40 80))))
+              (schematicInstanceImplementation i3
+                (instanceRef &3)
+                (schematicSymbolRef ffsymbolnoportnames)
+                (transform
+                  (origin
+                    (pt 160 80))))
+              (schematicOffPageConnectorImplementation opc1
+                (schematicOffPageConnectorTemplateRef offpc
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 10 160))))
+              (schematicOffPageConnectorImplementation opc2
+                (schematicOffPageConnectorTemplateRef offpc
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 10 130))))
+              (schematicOffPageConnectorImplementation opc3
+                (schematicOffPageConnectorTemplateRef offpc
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 10 40))))
+              (schematicOffPageConnectorImplementation opc4
+                (schematicOffPageConnectorTemplateRef offpc
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 10 50))))
+              (schematicOnPageConnectorImplementation onpc1
+                (schematicOnPageConnectorTemplateRef onpc
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 20 120))))
+              (schematicOnPageConnectorImplementation onpc2
+                (schematicOnPageConnectorTemplateRef onpc
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 140 120))))
+              (schematicOnPageConnectorImplementation onpc3
+                (schematicOnPageConnectorTemplateRef onpc
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 40 40))))
+              (schematicRipperImplementation r1
+                (schematicRipperTemplateRef ripper
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 110 158))))
+              (schematicRipperImplementation r2
+                (schematicRipperTemplateRef ripper
+                  (libraryRef celllib))
+                (transform
+                  (origin
+                    (pt 230 158))))
+              (schematicBus count
+                (signalGroupRef &11g)
+                (schematicInterconnectHeader
+                  (schematicInterconnectTerminatorImplementation t1
+                    (schematicInterconnectTerminatorTemplateRef term
+                      (libraryRef celllib))
+                    (transform
+                       (origin (pt 260 160)))))
+                (schematicBusJoined
+                  (portJoined
+                    (portRef count))
+                  (ripperHotspotRef busend
+                    (schematicRipperImplementationRef r1))
+                  (ripperHotspotRef busend
+                    (schematicRipperImplementationRef r2))
+                  (schematicOffPageConnectorImplementationRef opc1)
+                  (schematicInterconnectTerminatorImplementationRef t1))
+                (schematicBusDetails
+                  (schematicBusGraphics
+                    (figure bus_graphics
+                      (path
+                        (pointList
+                          (pt 10 160)
+                          (pt 112 160)
+                          (pt 140 160)
+                          (pt 232 160)
+                          (pt 260 160))))))
+                (schematicInterconnectAttributeDisplay
+                  (interconnectAttachedText
+                    (pt 140 160)
+                    (interconnectNameDisplay
+                      (display bus_text
+                        (transform
+                          (origin
+                            (pt 140 162)))))))
+                (schematicBusSlice busslice0
+                  (signalGroupRef &9g)
+                  (schematicInterconnectHeader)
+                  (schematicBusJoined
+                    (portJoined
+                      (portInstanceRef q
+                        (instanceRef &2)))
+                    (ripperHotspotRef netend
+                      (schematicRipperImplementationRef r1)))
+                  (schematicBusDetails
+                    (schematicBusGraphics
+                      (figure net_graphics
+                        (path
+                          (pointList
+                            (pt 110 130)
+                            (pt 110 158)))))))
+                (schematicBusSlice busslice1
+                  (signalGroupRef &10g)
+                  (schematicInterconnectHeader)
+                  (schematicBusJoined
+                    (portJoined
+                      (portInstanceRef q
+                        (instanceRef &3)))
+                    (ripperHotspotRef netend
+                      (schematicRipperImplementationRef r2)))
+                  (schematicBusDetails
+                    (schematicBusGraphics
+                      (figure net_graphics
+                        (path
+                          (pointList
+                            (pt 230 130)
+                            (pt 230 158))))))))
+              (schematicNet qb1
+                (signalRef &4)
+                (schematicInterconnectHeader)
+                (schematicNetJoined
+                  (portJoined
+                    (portInstanceRef clk
+                      (instanceRef &2)))
+                  (schematicOffPageConnectorImplementationRef opc2))
+                (schematicNetDetails
+                  (schematicNetGraphics
+                    (figure net_graphics
+                      (path
+                        (pointList
+                          (pt 10 130)
+                          (pt 30 130)
+                          (pt 40 130))))))
+                (schematicInterconnectAttributeDisplay
+                  (interconnectAttachedText
+                    (pt 30 130)
+                    (interconnectNameDisplay
+                      (display net_text
+                        (transform
+                          (origin
+                            (pt 30 132))))))))
+              (schematicNet set
+                (signalRef &1)
+                (schematicInterconnectHeader)
+                (schematicNetJoined
+                  (portJoined
+                    (portInstanceRef set
+                      (instanceRef &2))
+                    (portInstanceRef set
+                      (instanceRef &3)))
+                  (schematicOnPageConnectorImplementationRef onpc1)
+                  (schematicOnPageConnectorImplementationRef onpc2)
+                  (schematicOnPageConnectorImplementationRef onpc3)
+                  (schematicOffPageConnectorImplementationRef opc3))
+                (schematicNetDetails
+                  (schematicSubNetSet
+                    (schematicSubNet sn1
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef set
+                            (instanceRef &2)))
+                        (schematicOnPageConnectorImplementationRef onpc1))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 20 120)
+                                (pt 40 120)))))))
+                    (schematicSubNet sn2
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef set
+                            (instanceRef &3)))
+                        (schematicOnPageConnectorImplementationRef onpc2))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 140 120)
+                                (pt 160 120)))))))
+                    (schematicSubNet sn3
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined)
+                        (schematicOffPageConnectorImplementationRef opc3)
+                        (schematicOnPageConnectorImplementationRef onpc3))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 10 40)
+                                (pt 20 40)
+                                (pt 40 40)))))))))
+                (schematicInterconnectAttributeDisplay
+                  (interconnectAttachedText
+                    (pt 40 120)
+                    (interconnectNameDisplay
+                      (display net_text
+                        (transform
+                          (origin
+                            (pt 40 122))))))
+                  (interconnectAttachedText
+                    (pt 20 40)
+                    (interconnectNameDisplay
+                      (display net_text
+                        (transform
+                          (origin
+                            (pt 20 42))))))
+                  (interconnectAttachedText
+                    (pt 160 120)
+                    (interconnectNameDisplay
+                      (display net_text
+                        (transform
+                          (origin
+                            (pt 160 122))))))))
+              (schematicNet reset
+                (signalRef &2)
+                (schematicInterconnectHeader
+                  (schematicJunctionImplementation j1
+                    (schematicJunctionTemplateRef junction
+                      (libraryRef celllib))
+                    (transform
+                      (origin
+                        (pt 30 50))))
+                  (schematicJunctionImplementation j2
+                    (schematicJunctionTemplateRef junction
+                      (libraryRef celllib))
+                    (transform
+                      (origin
+                        (pt 150 50))))
+                  (schematicInterconnectTerminatorImplementation t1
+                    (schematicInterconnectTerminatorTemplateRef term
+                      (libraryRef celllib))
+                    (transform
+                       (origin (pt 260 50)))))
+                (schematicNetJoined
+                  (portJoined
+                    (portInstanceRef reset
+                      (instanceRef &2))
+                    (portInstanceRef reset
+                      (instanceRef &3)))
+                  (schematicJunctionImplementationRef j1)
+                  (schematicJunctionImplementationRef j2)
+                  (schematicOffPageConnectorImplementationRef opc4)
+                  (schematicInterconnectTerminatorImplementationRef t1))
+                (schematicNetDetails
+                  (schematicSubNetSet
+                    (schematicSubNet sn1
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined)
+                        (schematicJunctionImplementationRef j1)
+                        (schematicJunctionImplementationRef j2)
+                        (schematicOffPageConnectorImplementationRef opc4)
+                        (schematicInterconnectTerminatorImplementationRef t1))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 10 50)
+                                (pt 30 50)
+                                (pt 80 50)
+                                (pt 150 50)
+                                (pt 260 50)))))))
+                    (schematicSubNet sn2
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef reset
+                            (instanceRef &2)))
+                        (schematicJunctionImplementationRef j1))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 30 50)
+                                (pt 30 110)
+                                (pt 40 110)))))))
+                    (schematicSubNet sn3
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef reset
+                            (instanceRef &3)))
+                        (schematicJunctionImplementationRef j2))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 150 50)
+                                (pt 150 110)
+                                (pt 160 110)))))))))
+                (schematicInterconnectAttributeDisplay
+                  (interconnectAttachedText
+                    (pt 80 50)
+                    (interconnectNameDisplay
+                      (display net_text
+                        (transform
+                          (origin
+                            (pt 80 52))))))))
+              (schematicNet qb2
+                (signalRef &5)
+                (schematicInterconnectHeader
+                  (schematicJunctionImplementation j3
+                    (schematicJunctionTemplateRef junction
+                      (libraryRef celllib))
+                    (transform
+                      (origin
+                        (pt 110 110)))))
+                (schematicNetJoined
+                  (joinedAsSignal)
+                  (schematicJunctionImplementationRef j3))
+                (schematicNetDetails
+                  (schematicSubNetSet
+                    (schematicSubNet sn1
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef d
+                            (instanceRef &2))
+                          (portInstanceRef qbar
+                            (instanceRef &2)))
+                        (schematicJunctionImplementationRef j3))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 40 100)
+                                (pt 40 70)
+                                (pt 110 70)
+                                (pt 110 110)))))))
+                    (schematicSubNet sn2
+                      (schematicSubInterconnectHeader)
+                      (schematicNetJoined
+                        (portJoined
+                          (portInstanceRef clk
+                            (instanceRef &3))
+                          (portInstanceRef qbar
+                            (instanceRef &2)))
+                        (schematicJunctionImplementationRef j3))
+                      (schematicNetDetails
+                        (schematicNetGraphics
+                          (figure net_graphics
+                            (path
+                              (pointList
+                                (pt 110 110)
+                                (pt 120 110)
+                                (pt 120 130)
+                                (pt 160 130)))))))))
+                (schematicInterconnectAttributeDisplay
+                  (interconnectAttachedText
+                    (pt 110 110)
+                    (interconnectNameDisplay
+                      (display net_text
+                        (transform
+                          (origin
+                            (pt 100 112))))))))
+              (schematicNet qb3
+                (signalRef &6)
+                (schematicInterconnectHeader)
+                (schematicNetJoined
+                  (joinedAsSignal))
+                (schematicNetDetails
+                  (schematicNetGraphics
+                    (figure net_graphics
+                      (path
+                        (pointList
+                          (pt 160 100)
+                          (pt 160 70)
+                          (pt 230 70)
+                          (pt 230 110))))))
+                (schematicInterconnectAttributeDisplay
+                  (interconnectAttachedText
+                    (pt 230 110)
+                    (interconnectNameDisplay
+                      (display net_text
+                        (transform
+                          (origin
+                            (pt 220 112)))))))))))
+        (clusterConfiguration CC1
+          (viewRef schematicconnectivity)
+          (instanceConfiguration &0 (clusterConfigurationRef CC1))
+          (instanceConfiguration &1 (clusterConfigurationRef CC1))
+          (instanceConfiguration &2 (clusterConfigurationRef CC1))
+          (instanceConfiguration &3 (clusterConfigurationRef CC1)))
+        (defaultClusterConfiguration CC1))))
+
+  (design RippleCounter (cellRef ripplecounter (libraryRef designLib))
+    (designHeader (designUnits))
+    (designHierarchy DH1
+      (clusterRef ripplecluster)
+      (clusterConfigurationRef CC1)
+      (designHierarchyHeader))))

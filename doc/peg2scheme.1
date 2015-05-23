@@ -1,0 +1,63 @@
+.\" Copyright (c) 1994-2015 Nineties Retro
+.TH PEG2SCHEME L "January 2, 1995"
+.UC 4
+.SH NAME
+peg2scheme \- Generate a Scheme file for the keywords in a language
+.SH SYNOPSIS
+.B peg2scheme
+[
+.B \-b
+.I prefix
+] [
+.B \-a
+.I postfix
+]
+.I grammar
+.br
+.SH DESCRIPTION
+.B peg2scheme
+Produces (on standard output) a Scheme file which contains a definition
+for every keyword in the grammar.  To avoid name clashes with other
+languages it is possible to give a prefix and postfix which will be
+attached to each keyword.
+
+.SH OPTIONS
+
+.TP 1i
+.B \-b prefix
+Define the prefix to attach to each keyword.  If this is not specified
+then the default is the empty string ("").
+.TP
+.B \-a postfix
+Define the postfix to attach to each keyword.  If this is not specified
+then the default is the empty string ("").
+
+.SH EXAMPLES
+
+The following produces the Scheme file for an EDIF 300 grammar which is
+stored in /usr/local/lib/edif/300 with the default prefix.
+
+.nf
+$ peg2scheme /usr/local/lib/edif/300/ > /usr/local/include/edif/300/edif_kw.scm
+.fi
+
+The following produces the Scheme file for an EDIF 300 grammar which is
+stored in /usr/local/lib/edif/300 with the prefix "edif_kw_"
+
+.nf
+$ peg2scheme -b edif_kw_ /usr/local/lib/edif/300/ > /usr/local/include/edif/300/edif_kw.scm
+.fi
+
+.SH AUTHOR
+
+Nineties Retro <nineties-retro@mail.com>
+
+.SH COPYRIGHT
+
+Copyright (C) 1994-2015 Nineties Retro <nineties-retro@mail.com>
+
+.SH SEE ALSO
+.BR pep (1)
+.BR peg_make (1)
+.BR peg2h (1)
+.BR peg2prolog (1)

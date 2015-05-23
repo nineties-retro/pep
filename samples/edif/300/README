@@ -1,0 +1,13 @@
+bad.edf
+  http://web.archive.org/web/20050311061427/http://edif-tc.cs.man.ac.uk/parser/ep300-3.3.1-unlicensed-sunos5-sparc.tar.gz:ep300-3.3.1/ivp/test-300.edf
+  This has 
+
+    $ ./pep -l grammars/edif/300/ samples/edif/300/bad.edf
+    samples/edif/300/bad.edf:100 error  (list (unique borderPattern) (unique borderPatternVisible) (unique borderWidth) (unique color) (unique fillPattern) (unique fillPatternVisible) (unique fontRef) (unique horizontalJustification) (unique textHeight) (unique verticalJustification) (unique visible))
+    $ 
+
+good.edf
+  http://web.archive.org/web/20050311061427/http://edif-tc.cs.man.ac.uk/parser/ep300-3.3.1-unlicensed-sunos5-sparc.tar.gz:ep300-3.3.1/ivp/test-300.correct
+
+one.edf
+  Trivial test file used by OTZ.

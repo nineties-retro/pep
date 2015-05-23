@@ -1,0 +1,3595 @@
+(grammar
+
+  (identifier id)
+  (string     str)
+  (integer    int)
+
+  (start edif)
+
+  (keyword absolute "absolute" integerExpression)
+
+  (keyword acLoad "acLoad" capacitanceValue)
+
+  (keyword acLoadDisplay
+    "acLoadDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (alias acLoadFactorCapacitance capacitanceValue)
+
+  (alias acLoadFactorTime timeValue)
+
+  (keyword addDisplay "addDisplay" (list display))
+
+  (keyword ampere "ampere" unitExponent)
+
+  (keyword and "and" (list booleanExpression))
+
+  (alias angleValue numberValue)
+
+  (keyword annotate "annotate" stringValue (list display))
+
+  (keyword approvedDate "approvedDate" date)
+
+  (keyword approvedDateDisplay
+    "approvedDateDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword arc "arc" startPoint throughPoint endPoint)
+
+  (keyword ascii "ascii")
+
+  (keyword associatedInterconnectNameDisplay
+    "associatedInterconnectNameDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (alias attachmentPoint pointValue)
+
+  (keyword author "author" str)
+
+  (keyword backgroundColor "backgroundColor" color)
+
+  (keyword baselineJustify "baselineJustify")
+
+  (keyword becomes "becomes" (or logicNameRef logicList logicOneOf))
+
+  (keyword behaviorView
+    "behaviorView"
+    viewNameDef
+    (list comment (unique nameInformation) userData))
+
+  (keyword bidirectional "bidirectional")
+
+  (keyword bidirectionalPort
+    "bidirectionalPort"
+    (list (unique bidirectionalPortAttributes)))
+
+  (keyword bidirectionalPortAttributes
+    "bidirectionalPortAttributes"
+    (list
+      (unique dcFaninLoad)
+      (unique dcFanoutLoad)
+      (unique dcMaxFanin)
+      (unique dcMaxFanout)))
+
+  (keyword bitorder "bitOrder" (or lsbtomsb msbtolsb))
+
+  (alias blue scaledInteger)
+
+  (keyword boldstyle "boldStyle")
+
+  (keyword boolean "boolean" booleanExpression)
+
+  (keyword booleanConstant "booleanConstant" constantNameDef booleanToken)
+
+  (keyword booleanConstantRef "booleanConstantRef" constantNameRef)
+
+  (alias booleanExpression
+    (or and
+        booleanParameterRef
+        booleanToken
+        stringEqual
+        integerEqual
+        lessThan
+        lessThanOrEqual
+        not
+        or
+        xor
+        booleanConstantRef))
+
+  (keyword booleanmap "booleanMap" booleanValue)
+
+  (keyword booleanParameter
+    "booleanParameter"
+    parameterNameDef
+    (list (unique boolean) (unique nameInformation)))
+
+  (keyword booleanParameterAssign
+    "booleanParameterAssign"
+    parameterNameRef
+    booleanExpression)
+
+  (keyword booleanParameterRef "booleanParameterRef" parameterNameRef)
+
+  (alias booleanToken (or false true))
+
+  (alias booleanValue booleanToken)
+
+  (keyword borderPattern "borderPattern" pixelPattern)
+
+  (keyword borderPatternVisible "borderPatternVisible" booleanValue)
+
+  (keyword borderWidth "borderWidth" (or lengthValue minimalWidth))
+
+  (keyword bottomJustify "bottomJustify")
+
+  (keyword calculated "calculated")
+
+  (keyword candela "candela" unitExponent)
+
+  (alias capacitanceValue miNoMaxValue)
+
+  (keyword caplineJustify "caplineJustify")
+
+  (keyword cell
+    "cell"
+    libraryObjectNameDef
+    cellHeader
+    (list cluster comment userData viewGroup))
+
+  (keyword cellHeader
+    "cellHeader"
+    (list
+      documentation
+      (unique nameInformation)
+      property
+      (unique status)))
+
+  (keyword cellNameDisplay
+    "cellNameDisplay"
+    (list display displayNameOverride))
+
+  (keyword cellPropertyDisplay
+    "cellPropertyDisplay"
+    propertyNameRef
+    (list display (unique propertyNameDisplay)))
+
+  (keyword cellPropertyDisplayOverride
+    "cellPropertyDisplayOverride"
+    propertyNameRef
+    (or
+      addDisplay
+      replaceDisplay
+      removeDisplay)
+    (list (unique propertyNameDisplay)))
+
+  (keyword cellPropertyOverride
+    "cellPropertyOverride"
+    propertyNameRef
+    (or typedValue untyped)
+    (list comment (unique fixed) propertyOverride))
+
+  (keyword cellRef "cellRef" libraryObjectNameRef (optional libraryRef))
+
+  (keyword celsius "celsius" unitExponent)
+
+  (keyword centerJustify "centerJustify")
+
+  (keyword characterEncoding
+    "characterEncoding"
+    (or ascii iso8859 jisx0201 jisx0208))
+
+  (keyword checkdate "checkDate" date)
+
+  (keyword checkdateDisplay
+    "checkDateDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword circle "circle" pt1 pt2)
+
+  (keyword cluster
+    "cluster"
+    clusterNameDef
+    interface
+    clusterHeader
+    (list
+      behaviorView
+      clusterConfiguration
+      comment
+      connectivityView
+      (unique defaultClusterConfiguration)
+      logicModelView
+      maskLayoutView
+      pcbLayoutView
+      schematicSymbol
+      schematicView
+      symboliclayoutView
+      userData))
+
+  (keyword clusterConfiguration
+    "clusterConfiguration"
+    clusterConfigurationNameDef
+    (or viewRef leaf unconfigured)
+    (list
+      comment
+      frameConfiguration
+      globalPortScope
+      instanceConfiguration
+      (unique nameInformation)
+      property
+      userData))
+
+  (keyword clusterConfigurationNameCaseSensitive
+    "clusterConfigurationNameCaseSensitive"
+    booleanToken)
+
+  (alias clusterConfigurationNameDef nameDef)
+
+  (alias clusterConfigurationNameRef nameRef)
+
+  (keyword clusterConfigurationRef
+    "clusterConfigurationRef"
+    clusterConfigurationNameRef)
+
+  (keyword clusterHeader
+    "clusterHeader"
+    (list
+      documentation
+      (unique nameInformation)
+      property
+      (unique status)))
+
+  (keyword clusterNameCaseSensitive "clusterNameCaseSensitive" booleanToken)
+
+  (alias clusterNameDef nameDef)
+
+  (alias clusterNameRef nameRef)
+
+  (keyword clusterPropertyDisplay
+    "clusterPropertyDisplay"
+    propertyNameRef
+    (list display (unique propertyNameDisplay)))
+
+  (keyword clusterPropertyDisplayOverride
+    "clusterPropertyDisplayOverride"
+    propertyNameRef
+    (or addDisplay replaceDisplay removeDisplay)
+    (list (unique propertyNameDisplay)))
+
+  (keyword clusterPropertyOverride
+    "clusterPropertyOverride"
+    propertyNameRef
+    (or typedValue untyped)
+    (list comment (unique fixed) propertyOverride))
+
+  (keyword clusterRef "clusterRef" clusterNameRef (optional cellRef))
+
+  (keyword color "color" red green blue)
+
+  (keyword comment "comment" (list str))
+
+  (keyword commentGraphics
+    "commentGraphics"
+    (list
+      annotate
+      comment
+      figure
+      (unique originalBoundingBox)
+      propertyDisplay
+      userData))
+
+  (keyword companyName "companyName" str)
+
+  (keyword companyNameDisplay
+    "companyNameDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword complementedName
+    "complementedName"
+    (list
+      complementedNamePart
+      nameDimension
+      namePartSeparator
+      simpleName))
+
+  (keyword complementedNamePart
+    "complementedNamePart"
+    (list complementedNamePart namePartSeparator simpleName))
+
+  (keyword complexGeometry "complexGeometry" geometryMacroRef transform)
+
+  (keyword complexName
+    "complexName"
+    (list complementedNamePart nameDimension namePartSeparator simpleName))
+
+  (keyword compound "compound" (list logicNameRef))
+
+  (keyword condition "condition" booleanExpression)
+
+  (keyword conditionDisplay
+    "conditionDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword connectedSignalIndexGenerator
+    "connectedSignalIndexGenerator"
+    integerExpression)
+
+  (keyword connectedSignalIndexGeneratorDisplay
+    "connectedSignalIndexGeneratorDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword connectivityBus "connectivityBus"
+    interconnectNameDef
+    signalGroupRef
+    interconnectHeader
+    connectivityBusJoined
+    (list comment connectivityBusSlice connectivitySubBus userData))
+
+  (keyword connectivityBusJoined
+    "connectivityBusJoined"
+    portJoined
+    (list connectivityRipperRef))
+
+  (keyword connectivityBusSlice
+    "connectivityBusSlice"
+    interconnectNameDef
+    signalGroupRef
+    interconnectHeader
+    connectivityBusJoined
+    (list comment connectivityBusSlice connectivitySubBus userData))
+
+  (keyword connectivityFrameStructure
+    "connectivityFrameStructure"
+    connectivityFrameStructureNameDef
+    frameRef
+    (list
+      comment
+      connectivityBus
+      connectivityFrameStructure
+      connectivityNet
+      connectivityRipper
+      timing
+      userData))
+
+  (alias connectivityFrameStructureNameDef nameDef)
+
+  (keyword connectivityNet
+    "connectivityNet"
+    interconnectNameDef
+    signalRef
+    interconnectHeader
+    connectivityNetJoined
+    (list comment connectivitySubNet userData))
+
+  (keyword connectivityNetJoined
+    "connectivityNetJoined"
+    (or portJoined joinedAsSignal)
+    (list connectivityRipperRef))
+
+  (keyword connectivityRipper "connectivityRipper" connectivityRipperNameDef)
+
+  (alias connectivityRipperNameDef nameDef)
+
+  (alias connectivityRipperNameRef nameRef)
+
+  (keyword connectivityRipperRef
+    "connectivityRipperRef"
+    connectivityRipperNameRef)
+
+  (keyword connectivityStructure
+    "connectivityStructure"
+    (list
+      comment
+      connectivityBus
+      connectivityFrameStructure
+      connectivityNet
+      connectivityRipper
+      localPortGroup
+      timing
+      userData))
+
+  (keyword connectivitySubBus
+    "connectivitySubBus"
+    interconnectNameDef
+    interconnectHeader
+    connectivityBusJoined
+    (list comment connectivityBusSlice connectivitySubBus userData))
+
+  (keyword connectivitySubNet
+    "connectivitySubNet"
+    interconnectNameDef
+    interconnectHeader
+    connectivityNetJoined
+    (list comment connectivitySubNet userData))
+
+  (keyword connectivityTagGenerator
+    "connectivityTagGenerator"
+    stringExpression)
+
+  (keyword connectivityTagGeneratorDisplay
+    "connectivityTagGeneratorDisplay"
+    (list display))
+
+  (keyword connectivityUnits
+    "connectivityUnits"
+    (list (unique setCapacitance) (unique setTime)))
+
+  (keyword connectivityView
+    "connectivityView"
+    viewNameDef
+    connectivityViewHeader
+    logicalConnectivity
+    connectivityStructure
+    (list comment userData))
+
+  (keyword connectivityViewHeader
+    "connectivityViewHeader"
+    connectivityUnits
+    (list
+      (unique derivedFrom)
+      documentation
+      (unique nameInformation)
+      (unique previousVersion)
+      property
+      (unique status)))
+
+  (alias constantNameDef nameDef)
+
+  (alias constantNameRef nameRef)
+
+  (keyword constantValues
+    "constantValues"
+    (list booleanConstant integerConstant stringConstant))
+
+  (keyword contract "contract" str)
+
+  (keyword contractDisplay
+    "contractDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+ (keyword copyright "copyright" year (list str))
+
+  (keyword copyrightDisplay
+    "copyrightDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword cornerType "cornerType" (or truncate round extend))
+
+  (keyword coulomb "coulomb" unitExponent)
+
+  (keyword criticality "criticality" integerValue)
+
+  (keyword criticalityDisplay "criticalityDisplay" (list display))
+
+  (keyword currentmap "currentMap" currentValue)
+
+  (alias currentValue miNoMaxValue)
+
+  (keyword curve "curve" (list arc pointValue))
+
+  (keyword dataOrigin "dataOrigin" str (list (unique version)))
+
+  (keyword date "date" yearNumber monthnumber dayNumber)
+
+  (alias dayNumber int)
+
+  (keyword dcFaninLoad "dcFanInLoad" numberValue)
+
+  (keyword dcFaninLoadDisplay
+    "dcFanInLoadDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword dcFanoutLoad "dcFanOutLoad" numberValue)
+
+  (keyword dcFanoutLoadDisplay
+    "dcFanOutLoadDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword dcMaxFanin "dcMaxFanIn" numberValue)
+
+  (keyword dcMaxFaninDisplay
+    "dcMaxFanInDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword dcMaxFanout "dcMaxFanOut" numberValue)
+
+  (keyword dcMaxFanoutDisplay
+    "dcMaxFanOutDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword decimalToString
+    "decimalToString"
+    integerExpression
+    (list (unique minimumStringLength)))
+
+  (keyword defaultClusterConfiguration
+    "defaultClusterConfiguration"
+    clusterConfigurationNameRef)
+
+  (keyword defaultConnection "defaultConnection" globalPortRef)
+
+  (keyword degree "degree" unitExponent)
+
+  (keyword delay "delay" timedelay)
+
+  (alias denominator integerValue)
+
+  (alias derivation (or calculated measured required))
+
+  (keyword derivedFrom "derivedFrom" viewRef (list (unique reason)))
+
+  (keyword design
+    "design"
+    designNameDef
+    cellRef
+    designHeader
+    (list comment designHierarchy userData))
+
+  (keyword designator "designator" stringValue)
+
+  (keyword designatorDisplay
+    "designatorDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword designHeader
+    "designHeader"
+    designUnits
+    (list documentation (unique nameInformation) property (unique status)))
+
+  (keyword designHierarchy
+    "designHierarchy"
+    designHierarchyNameDef
+    clusterRef
+    clusterConfigurationRef
+    designHierarchyHeader
+    (list (unique occurrenceHierarchyAnnotate)))
+
+  (keyword designHierarchyHeader
+    "designHierarchyHeader"
+    (list
+      booleanParameterAssign
+      integerParameterAssign
+      (unique nameInformation)
+      numberParameterAssign
+      property
+      stringParameterAssign))
+
+  (keyword designHierarchyNameCaseSensitive
+    "designHierarchyNameCaseSensitive"
+     booleanToken)
+
+  (alias designHierarchyNameDef nameDef)
+
+  (keyword designNameCaseSensitive "designNameCaseSensitive" booleanToken)
+
+  (alias designNameDef nameDef)
+
+  (keyword designUnits
+    "designUnits"
+    (list (unique setCapacitance) (unique setTime)))
+
+  (keyword diagram
+    "diagram"
+    diagramNameDef
+    (list annotate comment figure userData))
+
+  (alias diagramNameDef nameDef)
+
+  (keyword directionalPortAttributeOverride
+    "directionalPortAttributeOverride"
+    (or inputPortAttributes outputPortAttributes bidirectionalPortAttributes))
+
+  (keyword display
+    "display"
+    (or figureGroupNameRef figureGroupOverride) transform)
+
+  (keyword displayAttributes
+    "displayAttributes"
+    (list
+      (unique borderPattern)
+      (unique borderPatternVisible)
+      (unique borderWidth)
+      (unique color)
+      (unique fillPattern)
+      (unique fillPatternVisible)
+      (unique fontRef)
+      (unique horizontalJustification)
+      (unique textHeight)
+      (unique verticalJustification)
+      (unique visible)))
+
+  (keyword displayName "displayName" str)
+
+  (keyword displayNameOverride
+    "displayNameOverride"
+    str
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (alias distanceValue integerValue)
+
+  (alias dividend integerExpression)
+
+  (alias divisor integerExpression)
+
+  (keyword documentation
+    "documentation"
+    documentationNameDef
+    documentationHeader
+    (list section))
+
+  (keyword documentationHeader
+    "documentationHeader"
+    documentationUnits
+    (list
+      (unique backgroundColor)
+      (unique nameInformation)
+      (unique status)))
+
+  (keyword documentationNameCaseSensitive
+    "documentationNameCaseSensitive"
+    booleanToken)
+
+  (alias documentationNameDef nameDef)
+
+  (keyword documentationUnits
+    "documentationUnits"
+    (list (unique setAngle) (unique setDistance)))
+
+  (keyword dominates "dominates" (list logicNameRef))
+
+  (keyword dot "dot" pointValue)
+
+  (keyword drawingDescription "drawingDescription" str)
+
+  (keyword drawingDescriptionDisplay
+    "drawingDescriptionDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword drawingIdentification "drawingIdentification" str)
+
+  (keyword drawingIdentificationDisplay
+    "drawingIdentificationDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword drawingSize "drawingSize" str)
+
+  (keyword drawingSizeDisplay
+    "drawingSizeDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword duration "duration" timeValue)
+
+  (keyword e "e" mantissa exponent)
+
+  (keyword edif
+    "edif"
+    edifNameDef
+    edifVersion
+    edifHeader
+    (list comment design external library userData))
+
+  (keyword edifHeader
+    "edifHeader"
+    edifLevel
+    keywordMap
+    unitDefinitions
+    fontDefinitions
+    physicalDefaults
+    (list
+      (unique characterEncoding)
+      (unique constantValues)
+      documentation
+      (unique globalPortDefinitions)
+      (unique nameCaseSensitivity)
+      (unique nameInformation)
+      (unique physicalScaling)
+      property 
+      (unique status)))
+
+  (keyword edifLevel "edifLevel" edifLevelValue)
+
+  (alias edifLevelValue int)
+
+  (alias edifNameDef nameDef)
+
+  (keyword edifVersion "edifVersion" mark issue subissue)
+
+  (alias endPoint pointValue)
+
+  (keyword endType "endType" (or truncate round extend))
+
+  (keyword engineeringDate "engineeringDate" date)
+
+  (keyword engineeringDateDisplay
+    "engineeringDateDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword event "event"
+    (or portRef portList portSet interconnectRef interconnectSet)
+    (list becomes transition ))
+
+  (alias exponent int)
+
+  (keyword extend "extend")
+
+  (alias extendforFrameMemberDef forFrameMemberRef)
+
+  (alias extendFrameDef frameNameRef)
+
+  (alias extendInstanceDef instanceNameRef)
+
+  (alias extendInstanceMemberDef instanceMemberRef)
+
+  (alias extendInterconnectDef interconnectNameRef)
+
+  (alias extendPageDef pageNameRef)
+
+  (alias extendPortDef portNameRef)
+
+  (alias extendPortMemberDef portMemberRef)
+
+  (alias extendSignalDef signalNameRef)
+
+  (alias extendSignalGroupDef signalGroupNameRef)
+
+  (alias extendSignalMemberDef signalMemberRef)
+
+  (keyword external
+    "external"
+    libraryNameDef
+    libraryHeader
+    (list
+      cell
+      comment
+      geometryMacro
+      pageBorderTemplate
+      pageTitleBlockTemplate
+      schematicFigureMacro
+      schematicForFrameBorderTemplate
+      schematicGlobalPortTemplate
+      schematicIfFrameBorderTemplate
+      schematicInterconnectTerminatorTemplate
+      schematicJunctionTemplate
+      schematicMasterPortTemplate
+      schematicOffPageConnectorTemplate
+      schematicOnPageConnectorTemplate
+      schematicOtherwiseFrameBorderTemplate
+      schematicRipperTemplate
+      schematicSymbolBorderTemplate
+      schematicSymbolPortTemplate userData))
+
+  (keyword fahrenheit "fahrenheit" unitExponent)
+
+  (keyword false "false")
+
+  (keyword farad "farad" unitExponent)
+
+  (keyword figure
+    "figure"
+    (or figureGroupNameRef figureGroupOverride)
+    (list
+      circle
+      comment
+      complexGeometry
+      dot
+      openShape
+      path
+      polygon
+      rectangle
+      shape
+      userData))
+
+  (keyword figureGroup
+    "figureGroup"
+    figureGroupNameDef
+    (list
+      comment
+      (unique cornerType)
+      (unique displayAttributes)
+      (unique endType)
+      (unique nameInformation)
+      (unique pathWidth)
+      property
+      userData))
+
+  (keyword figureGroupNameCaseSensitive
+    "figureGroupNameCaseSensitive"
+    booleanToken)
+
+  (alias figureGroupNameDef nameDef)
+
+  (alias figureGroupNameRef nameRef)
+
+  (keyword figureGroupOverride
+    "figureGroupOverride"
+    figureGroupNameRef
+    (list
+      comment
+      (unique cornerType)
+      (unique displayAttributes)
+      (unique endType)
+      (unique pathWidth)
+      propertyOverride))
+
+  (keyword fillPattern "fillPattern" pixelPattern)
+
+  (keyword fillPatternVisible "fillPatternVisible" booleanValue)
+
+  (alias firstIntegerExpression integerExpression)
+
+  (alias firstStringExpression stringExpression)
+
+  (keyword fixed "fixed")
+
+  (keyword font
+    "font"
+    fontNameDef
+    typeface
+    fontproportions
+    (list
+      (unique boldstyle)
+      (unique italicStyle)
+      property
+      (unique proportionalfont)
+      userData))
+
+  (keyword fontCapitalHeight "fontCapitalHeight" lengthValue)
+
+  (keyword fontDefinitions "fontDefinitions" (list (unique fonts)))
+
+  (keyword fontDescent "fontDescent" lengthValue)
+
+  (alias fontfamily str)
+
+  (keyword fontHeight "fontHeight" lengthValue)
+
+  (alias fontNameDef nameDef)
+
+  (alias fontNameRef nameRef)
+
+  (keyword fontproportions
+    "fontProportions"
+    fontHeight
+    fontDescent
+    fontCapitalHeight
+    fontWidth)
+
+  (keyword fontRef "fontRef" fontNameRef)
+
+  (keyword fonts "fonts" setDistance (list font))
+
+  (keyword fontWidth "fontWidth" lengthValue)
+
+  (keyword forbiddenEvent "forbiddenEvent" timeInterval (list event))
+
+  (keyword forFrame
+    "forFrame"
+    frameNameDef
+    repetitionCount
+    forFrameindex
+    logicalConnectivity
+    (list
+      comment
+      documentation
+      (unique nameInformation)
+      property
+      userData))
+
+  (keyword forFrameAnnotate
+    "forFrameAnnotate"
+    extendforFrameMemberDef
+    (list
+      comment
+      forFrameAnnotate
+      ifFrameAnnotate
+      interconnectAnnotate
+      leafOccurrenceAnnotate
+      occurrenceAnnotate
+      otherwiseFrameAnnotate))
+
+  (keyword forFrameindex
+    "forFrameIndex"
+    indexNameDef
+    (list
+      (unique indexStart)
+      (unique indexStep)
+      (unique nameInformation)))
+
+  (keyword forFrameindexdisplay
+    "forFrameIndexDisplay"
+    (list
+      (unique indexendDisplay)
+      (unique indexNameDisplay)
+      (unique indexStartDisplay)
+      (unique indexStepdisplay)))
+
+  (keyword forFrameindexNameCaseSensitive
+    "forFrameIndexNameCaseSensitive"
+    booleanToken)
+
+  (keyword forFrameindexref "forFrameIndexRef" indexNameRef)
+
+  (keyword forFrameMemberRef "forFrameMemberRef" frameNameRef indexValue)
+
+  (keyword forFrameRef "forFrameRef" frameNameRef)
+
+  (keyword frameConfiguration
+    "frameConfiguration"
+    frameNameRef
+   (list frameConfiguration instanceConfiguration))
+
+  (keyword frameNameCaseSensitive "frameNameCaseSensitive" booleanToken)
+
+  (alias frameNameDef nameDef)
+
+  (alias frameNameRef nameRef)
+
+  (keyword frameRef "frameRef" frameNameRef)
+
+  (alias frequencyvalue miNoMaxValue)
+
+  (keyword frombottom "fromBottom")
+
+  (alias fromInteger int)
+
+  (keyword fromleft "fromLeft")
+
+  (keyword fromright "fromRight")
+
+  (keyword fromtop "fromTop")
+
+  (keyword generated "generated")
+
+  (keyword geometryMacro
+    "geometryMacro"
+    libraryObjectNameDef
+    geometryMacroheader
+    (list
+      circle
+      comment
+      complexGeometry
+      dot
+      openShape
+      path
+      polygon
+      rectangle
+      shape
+      userData))
+
+  (keyword geometryMacroheader
+    "geometryMacroHeader"
+    geometryMacroUnits
+    (list
+      (unique backgroundColor)
+      documentation
+      (unique nameInformation)
+      (unique originalBoundingBox)
+      property
+      (unique status)))
+
+  (keyword geometryMacroRef
+    "geometryMacroRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword geometryMacroUnits "geometryMacroUnits" (list (unique setAngle)))
+
+  (keyword globalPort
+    "globalPort"
+    globalPortNameDef
+    (list
+      comment
+      (unique nameInformation)
+      property
+      (unique schematicGlobalPortAttributes)
+      userData))
+
+  (keyword globalPortBundle
+    "globalPortBundle"
+    globalPortNameDef
+    globalPortList
+    (list comment (unique nameInformation) property userData))
+
+  (keyword globalPortDefinitions
+    "globalPortDefinitions"
+    (list globalPort globalPortBundle))
+
+  (keyword globalPortList "globalPortList" (list globalPortRef))
+
+  (keyword globalPortNameCaseSensitive
+    "globalPortNameCaseSensitive"
+    booleanToken)
+
+  (alias globalPortNameDef nameDef)
+
+  (keyword globalPortNameDisplay
+    "globalPortNameDisplay"
+    (list display displayNameOverride))
+
+  (alias globalPortNameRef nameRef)
+
+  (keyword globalPortPropertyDisplay
+    "globalPortPropertyDisplay"
+    propertyNameRef
+    (list display (unique propertyNameDisplay)))
+
+  (keyword globalPortRef "globalPortRef" globalPortNameRef)
+
+  (keyword globalPortScope "globalPortScope" globalPortNameRef)
+
+  (alias green scaledInteger)
+
+  (keyword henry "henry" unitExponent)
+
+  (keyword hertz "hertz" unitExponent)
+
+  (keyword horizontalJustification
+    "horizontalJustification"
+    (or leftJustify centerJustify rightJustify))
+
+  (keyword hotspot
+    "hotspot"
+    pointValue
+    (list
+      (unique hotspotConnectDirection)
+      (unique hotspotNameDisplay)
+      (unique nameInformation)
+      (unique schematicWireAffinity)))
+
+  (keyword hotspotConnectDirection
+    "hotspotConnectDirection"
+    (list
+      (unique frombottom)
+      (unique fromleft)
+      (unique fromright)
+      (unique fromtop)))
+
+  (keyword hotspotGrid "hotspotGrid" lengthValue)
+
+  (keyword hotspotNameCaseSensitive "hotspotNameCaseSensitive" booleanToken)
+
+  (alias hotspotNameDef nameDef)
+
+  (keyword hotspotNameDisplay
+    "hotspotNameDisplay"
+    (list display displayNameOverride))
+
+  (alias hotspotNameRef nameRef)
+
+  (alias hourNumber int)
+
+  (alias ieeeDesignation str)
+
+  (keyword ieeeSection "ieeeSection" (list int))
+
+  (keyword ieeeStandard
+    "ieeeStandard"
+    ieeeDesignation
+    year
+    (list comment (unique ieeeSection)))
+
+  (keyword ifFrame
+    "ifFrame"
+    frameNameDef
+    condition
+    logicalConnectivity
+    (list comment documentation (unique nameInformation) property userData))
+
+  (keyword ifFrameAnnotate
+    "ifFrameAnnotate"
+    extendFrameDef
+    (list
+      comment
+      forFrameAnnotate
+      ifFrameAnnotate
+      interconnectAnnotate
+      leafOccurrenceAnnotate
+      occurrenceAnnotate
+      otherwiseFrameAnnotate
+      propertyOverride))
+
+  (keyword ifFrameRef "ifFrameRef" frameNameRef)
+
+  (keyword ifFrameset "ifFrameSet" (list ifFrameRef))
+
+  (keyword ignore "ignore")
+
+  (keyword implementationNameCaseSensitive
+    "implementationNameCaseSensitive"
+    booleanToken)
+
+  (alias implementationNameDef nameDef)
+
+  (keyword implementationNameDisplay
+    "implementationNameDisplay"
+    (list display displayNameOverride))
+
+  (alias implementationNameRef nameRef)
+
+  (keyword indexendDisplay
+    "indexEndDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (alias indexNameDef nameDef)
+
+  (keyword indexNameDisplay
+    "indexNameDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (alias indexNameRef nameRef)
+
+  (keyword indexStart "indexStart" integerExpression)
+
+  (keyword indexStartDisplay
+    "indexStartDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword indexStep "indexStep" integerExpression)
+
+  (keyword indexStepdisplay
+    "indexStepDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword indexValue "indexValue" int)
+
+  (keyword input "input")
+
+  (keyword inputPort "inputPort" (list (unique inputPortAttributes)))
+
+  (keyword inputPortAttributes
+    "inputPortAttributes"
+    (list (unique dcFanoutLoad) (unique dcMaxFanin)))
+
+  (keyword instance
+    "instance"
+    instanceNameDef
+    clusterRef
+    (list
+      booleanParameterAssign
+      cellPropertyOverride
+      clusterPropertyOverride
+      comment
+      (unique designator)
+      (unique instanceNameGenerator)
+      instancePortAttributes
+      (unique instanceWidth)
+      integerParameterAssign
+      (unique nameInformation)
+      numberParameterAssign
+      property
+      stringParameterAssign
+      timing
+      userData))
+
+  (keyword instanceConfiguration
+    "instanceConfiguration"
+    instanceNameRef
+    clusterConfigurationRef)
+
+  (keyword instanceindexValue "instanceIndexValue")
+
+  (keyword instanceMemberRef "instanceMemberRef" instanceNameRef indexValue)
+
+  (keyword instanceNameCaseSensitive "instanceNameCaseSensitive" booleanToken)
+
+  (alias instanceNameDef nameDef)
+
+  (keyword instanceNameDisplay
+    "instanceNameDisplay"
+    (list display displayNameOverride))
+
+  (keyword instanceNameGenerator "instanceNameGenerator" stringExpression)
+
+  (keyword instanceNameGeneratorDisplay
+    "instanceNameGeneratorDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (alias instanceNameRef nameRef)
+
+  (keyword instancePortAttributeDisplay
+    "instancePortAttributeDisplay"
+    symbolPortImplementationNameRef
+    portRef
+    (list (unique portAttributeDisplay) portPropertyDisplayOverride))
+
+  (keyword instancePortAttributes
+    "instancePortAttributes"
+    extendPortDef
+    (list
+      (unique acLoad)
+      comment
+      (unique connectedSignalIndexGenerator)
+      (unique designator)
+      (unique directionalPortAttributeOverride)
+      portDelay
+      portDelayOverride
+      portLoadDelay
+      portLoadDelayOverride
+      portPropertyOverride
+      property
+      (unique unused)))
+
+  (keyword instancePropertyDisplay
+    "instancePropertyDisplay"
+    propertyNameRef
+    (list display (unique propertyNameDisplay)))
+
+  (keyword instancePropertyOverride
+    "instancePropertyOverride"
+    propertyNameRef
+    (or typedValue untyped)
+    (list comment (unique fixed) propertyOverride))
+
+  (keyword instanceRef "instanceRef" instanceNameRef)
+
+  (keyword instanceWidth "instanceWidth" integerExpression)
+
+  (keyword instanceWidthDisplay
+    "instanceWidthDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword integer "integer" integerExpression)
+
+  (keyword integerConstant "integerConstant" constantNameDef int)
+
+  (keyword integerConstantRef "integerConstantRef" constantNameRef)
+
+  (keyword integerEqual
+    "integerEqual"
+    firstIntegerExpression
+    secondIntegerExpression)
+
+  (alias integerExpression 
+    (or
+      integerParameterRef
+      int
+      integerProduct
+      integerSubtract
+      integerSum
+      integerRemainder
+      integerQuotient
+      stringLength
+      integerConstantRef
+      forFrameindexref
+      portindexValue 
+      signalIndexValue
+      absolute
+      instanceindexValue))
+
+  (keyword integerParameter
+    "integerParameter"
+    parameterNameDef
+    (list (unique integer) (unique nameInformation)))
+
+  (keyword integerParameterAssign
+    "integerParameterAssign"
+    parameterNameRef
+    integerExpression)
+
+  (keyword integerParameterRef "integerParameterRef" parameterNameRef)
+
+  (keyword integerProduct "integerProduct" (list integerExpression))
+
+  (keyword integerQuotient "integerQuotient" dividend divisor)
+
+  (keyword integerRemainder "integerRemainder" dividend divisor)
+
+  (keyword integerSubtract "integerSubtract" minuend subtrahend)
+
+  (keyword integerSum "integerSum" (list integerExpression))
+
+  (alias integerValue int)
+
+  (keyword interconnectAnnotate
+    "interconnectAnnotate"
+    extendInterconnectDef
+    (list
+      comment
+      (unique criticality)
+      interconnectAnnotate
+      interconnectDelay
+      property
+      propertyOverride))
+
+  (keyword interconnectAttachedText
+    "interconnectAttachedText"
+    attachmentPoint
+    (list
+      annotate
+      (unique connectivityTagGeneratorDisplay)
+      (unique criticalityDisplay)
+      interconnectDelayDisplay
+      (unique interconnectNameDisplay)
+      interconnectPropertyDisplay))
+
+  (keyword interconnectDelay
+    "interconnectDelay"
+    interconnectDelayNameDef
+    derivation
+    delay
+    (list becomes transition))
+
+  (keyword interconnectDelayDisplay
+    "interconnectDelayDisplay"
+    interconnectDelayNameRef
+    (list display))
+
+  (alias interconnectDelayNameDef nameDef)
+
+  (alias interconnectDelayNameRef nameRef)
+
+  (keyword interconnectHeader
+    "interconnectHeader"
+    (list
+     (unique criticality)
+     documentation
+     interconnectDelay
+     (unique nameInformation)
+     property))
+
+  (keyword interconnectNameCaseSensitive
+   "interconnectNameCaseSensitive"
+   booleanToken)
+
+  (alias interconnectNameDef nameDef)
+
+  (keyword interconnectNameDisplay
+    "interconnectNameDisplay"
+    (list display displayNameOverride))
+
+  (alias interconnectNameRef nameRef)
+
+  (keyword interconnectPropertyDisplay
+    "interconnectPropertyDisplay"
+    propertyNameRef
+    (list display (unique propertyNameDisplay)))
+
+  (keyword interconnectRef
+    "interconnectRef"
+    interconnectNameRef
+    (optional pageRef))
+
+  (keyword interconnectSet "interconnectSet" (list interconnectRef))
+
+  (keyword interface
+    "interface"
+    interfaceUnits
+    (list
+      booleanParameter
+      (unique designator)
+      integerParameter
+      interfaceJoined
+      mustJoin
+      numberParameter
+      permutable
+      port
+      portBundle
+      stringParameter
+      timing
+      weakJoined))
+
+  (keyword interfaceJoined "interfaceJoined" (list portRef))
+
+  (keyword interfaceUnits
+    "interfaceUnits"
+    (list (unique setCapacitance) (unique setTime)))
+
+  (keyword iso8859 "iso8859" iso8859part)
+
+  (alias iso8859part int)
+
+  (keyword isolated "isolated")
+
+  (alias issue int)
+
+  (keyword italicStyle "italicStyle")
+
+  (keyword jisx0201 "jisx0201")
+
+  (keyword jisx0208 "jisx0208")
+
+  (keyword joinedAsSignal "joinedAsSignal")
+
+  (keyword joule "joule" unitExponent)
+
+  (keyword k0keywordlevel "k0KeywordLevel")
+
+  (keyword k1keywordalias "k1KeywordAlias" k1keywordNameDef k1keywordNameRef)
+
+  (keyword k1keywordlevel "k1KeywordLevel" (list k1keywordalias))
+
+  (alias k1keywordNameDef id)
+
+  (alias k1keywordNameRef id)
+
+  (keyword k2actual "k2Actual" k2formalNameRef)
+
+  (keyword k2build
+    "k2Build"
+    k1keywordNameRef
+    (list comment k2actual k2build k2literal))
+
+  (keyword k2formal "k2Formal" k2formalNameDef (or k2optional k2required))
+
+  (alias k2formalNameDef id)
+
+  (alias k2formalNameRef id)
+
+  (keyword k2generate "k2Generate" (list comment k2actual k2build k2literal))
+
+  (keyword k2keyworddefine
+    "k2KeywordDefine"
+    k1keywordNameDef
+    k2keywordparameters
+    k2generate)
+
+  (keyword k2keywordlevel
+    "k2KeywordLevel"
+    (list k1keywordalias k2keyworddefine))
+
+  (keyword k2keywordparameters "k2KeywordParameters" (list k2formal))
+
+  (keyword k2literal "k2Literal" (list id int str))
+
+  (keyword k2optional "k2Optional" (or k2literal k2actual k2build))
+
+  (keyword k2required "k2Required")
+
+  (keyword k3build
+    "k3Build"
+    k1keywordNameRef
+    (list comment k2actual k2literal k3build k3foreach))
+
+  (keyword k3collector "k3Collector")
+
+  (keyword k3foreach
+    "k3ForEach"
+    (or k2formalNameRef k3formalList)
+    (list comment k2actual k2literal k3build k3foreach))
+
+  (keyword k3formal
+    "k3Formal"
+    k2formalNameDef
+    (or k2optional k2required k3collector))
+
+  (keyword k3formalList "k3FormalList" (list k2formalNameRef))
+
+  (keyword k3generate
+    "k3Generate"
+    (list comment k2actual k2build k2literal k3foreach))
+
+  (keyword k3keyworddefine
+    "k3KeywordDefine"
+    k1keywordNameDef
+    k3keywordparameters
+    k3generate)
+
+  (keyword k3keywordlevel
+    "k3KeywordLevel"
+    (list k1keywordalias k3keyworddefine))
+
+  (keyword k3keywordparameters "k3KeywordParameters" (list k3formal))
+
+  (keyword kelvin "kelvin" unitExponent)
+
+  (keyword keywordMap
+    "keywordMap"
+    (or k0keywordlevel k1keywordlevel k2keywordlevel k3keywordlevel)
+    (list comment))
+
+  (keyword kilogram "kilogram" unitExponent)
+
+  (keyword leaf "leaf")
+
+  (keyword leafOccurrenceAnnotate
+    "leafOccurrenceAnnotate"
+    (or extendInstanceDef extendInstanceMemberDef)
+    (list
+      cellPropertyOverride
+      clusterPropertyOverride
+      comment
+      (unique designator)
+      instancePropertyOverride
+      portAnnotate
+      property))
+
+  (keyword leftJustify "leftJustify")
+
+  (alias lengthValue distanceValue)
+
+  (keyword lessThan "lessThan" (list integerExpression))
+
+  (keyword lessThanOrEqual "lessThanOrEqual" (list integerExpression))
+
+  (keyword library
+    "library"
+    libraryNameDef
+    libraryHeader
+    (list
+      cell
+      comment
+      geometryMacro
+      pageBorderTemplate
+      pageTitleBlockTemplate
+      schematicFigureMacro
+      schematicForFrameBorderTemplate
+      schematicGlobalPortTemplate
+      schematicIfFrameBorderTemplate
+      schematicInterconnectTerminatorTemplate
+      schematicJunctionTemplate
+      schematicMasterPortTemplate
+      schematicOffPageConnectorTemplate
+      schematicOnPageConnectorTemplate
+      schematicOtherwiseFrameBorderTemplate
+      schematicRipperTemplate
+      schematicSymbolBorderTemplate
+      schematicSymbolPortTemplate
+      userData))
+
+  (keyword libraryHeader
+    "libraryHeader"
+    edifLevel
+    nameCaseSensitivity
+    technology
+    (list
+      (unique backgroundColor)
+      documentation
+      (unique nameInformation)
+      property
+      (unique status)))
+
+  (keyword libraryNameCaseSensitive "libraryNameCaseSensitive" booleanToken)
+
+  (alias libraryNameDef nameDef)
+
+  (alias libraryNameRef nameRef)
+
+  (keyword libraryObjectNameCaseSensitive
+    "libraryObjectNameCaseSensitive"
+    booleanToken)
+
+  (alias libraryObjectNameDef nameDef)
+
+  (alias libraryObjectNameRef nameRef)
+
+  (keyword libraryRef "libraryRef" libraryNameRef)
+
+  (keyword loadDelay "loadDelay" acLoadFactorTime acLoadFactorCapacitance)
+
+  (keyword localPortGroup
+    "localPortGroup"
+    localPortGroupNameDef
+    portList
+    (list comment (unique nameInformation) property userData))
+
+  (keyword localPortGroupNameCaseSensitive
+    "localPortGroupNameCaseSensitive"
+    booleanToken)
+
+  (alias localPortGroupNameDef nameDef)
+
+  (alias localPortGroupNameRef nameRef)
+
+  (keyword localPortGroupRef "localPortGroupRef" localPortGroupNameRef)
+
+  (keyword logicalConnectivity
+    "logicalConnectivity"
+    (list
+      comment
+      forFrame
+      ifFrame
+      instance
+      otherwiseFrame
+      signal
+      signalGroup
+      userData))
+
+  (keyword logicDefinitions
+    "logicDefinitions"
+    setVoltage
+    setcurrent
+    (list comment logicValue))
+
+  (keyword logicList "logicList" (list ignore logicNameRef logicOneOf))
+
+  (keyword logicMapinput "logicMapInput" (list logicref))
+
+  (keyword logicMapoutput "logicMapOutput" (list logicref))
+
+  (keyword logicModelUnits
+    "logicModelUnits"
+    (list (unique setCapacitance) (unique setTime)))
+
+  (keyword logicModelView
+    "logicModelView"
+    viewNameDef
+    (list comment (unique nameInformation) userData))
+
+  (alias logicNameDef nameDef)
+
+  (alias logicNameRef nameRef)
+
+  (keyword logicOneOf "logicOneOf" (list logicList logicNameRef))
+
+  (keyword logicref "logicRef" logicNameRef (optional libraryRef))
+
+  (keyword logicValue
+    "logicValue"
+    logicNameDef
+    (list
+      (unique booleanmap)
+      comment
+      (unique compound)
+      (unique currentmap)
+      (unique dominates)
+      (unique isolated)
+      (unique logicMapinput)
+      (unique logicMapoutput)
+      (unique nameInformation)
+      property
+      resolves
+      (unique strong)
+      (unique voltageMap)
+      (unique weak)))
+
+  (keyword lsbtomsb "lsbToMsb")
+
+  (alias mantissa int)
+
+  (alias mark int)
+
+  (keyword maskLayoutUnits
+    "maskLayoutUnits"
+    (list
+      (unique setAngle)
+      (unique setCapacitance)
+      (unique setDistance)
+      (unique setTime)))
+
+  (keyword maskLayoutView
+    "maskLayoutView"
+    viewNameDef
+    (list comment (unique nameInformation) userData))
+
+  (keyword measured "measured")
+
+  (keyword meter "meter" unitExponent)
+
+  (keyword middleJustify "middleJustify")
+
+  (keyword minimalWidth "minimalWidth")
+
+  (keyword minimumStringLength "minimumStringLength" substringLength)
+
+  (keyword miNoMax "miNoMax" miNoMaxValue)
+
+  (alias miNoMaxValue (or numberValue mnm))
+
+  (alias minuend integerExpression)
+
+  (alias minuteNumber int)
+
+  (keyword mixedDirection "mixedDirection")
+
+  (keyword mnm
+    "mnm"
+    (or numberValue undefined unconstrained)
+    (or numberValue undefined unconstrained)
+    (or numberValue undefined unconstrained))
+
+  (keyword mole "mole" unitExponent)
+
+  (alias monthnumber int)
+
+  (keyword msbtolsb "msbToLsb")
+
+  (keyword mustJoin "mustJoin" (list interfaceJoined portRef weakJoined))
+
+  (keyword namealias
+    "nameAlias"
+    originalName
+    (list (unique displayName) (unique generated) (unique nameStructure)))
+
+  (keyword nameCaseSensitivity
+    "nameCaseSensitivity"
+    (list
+      (unique clusterConfigurationNameCaseSensitive)
+      (unique clusterNameCaseSensitive)
+      (unique designHierarchyNameCaseSensitive)
+      (unique designNameCaseSensitive)
+      (unique documentationNameCaseSensitive)
+      (unique figureGroupNameCaseSensitive)
+      (unique forFrameindexNameCaseSensitive)
+      (unique frameNameCaseSensitive)
+      (unique globalPortNameCaseSensitive)
+      (unique hotspotNameCaseSensitive)
+      (unique implementationNameCaseSensitive)
+      (unique instanceNameCaseSensitive)
+      (unique interconnectNameCaseSensitive)
+      (unique libraryNameCaseSensitive)
+      (unique libraryObjectNameCaseSensitive)
+      (unique localPortGroupNameCaseSensitive)
+      (unique pageNameCaseSensitive)
+      (unique parameterNameCaseSensitive)
+      (unique portNameCaseSensitive)
+      (unique propertyNameCaseSensitive)
+      (unique signalGroupNameCaseSensitive)
+      (unique signalNameCaseSensitive)
+      (unique viewGroupNameCaseSensitive)
+      (unique viewNameCaseSensitive)))
+
+  (alias nameDef id)
+
+  (keyword nameDimension
+    "nameDimension"
+    nameDimensionstructure
+    (list (unique bitorder)))
+
+  (keyword nameDimensionstructure
+    "nameDimensionStructure"
+    (list complementedName complexName integerValue sequence simpleName))
+
+  (keyword nameInformation "nameInformation" primaryName (list namealias))
+
+  (keyword namePartSeparator "namePartSeparator" str)
+
+  (alias nameRef id)
+
+  (keyword nameStructure
+    "nameStructure"
+    (or simpleName complexName complementedName))
+
+  (keyword narrowport "narrowPort")
+
+  (keyword narrowWire "narrowWire")
+
+  (keyword noHotspotGrid "noHotspotGrid")
+
+  (keyword nominalHotspotGrid "nominalHotspotGrid" lengthValue)
+
+  (keyword nonpermutable "nonPermutable" (list permutable portRef))
+
+  (keyword not "not" booleanExpression)
+
+  (keyword notInherited "notInherited")
+
+  (keyword number "number" numberExpression)
+
+  (alias numberExpression (or numberValue numberParameterRef))
+
+  (alias numberOfBasicUnits scaledInteger)
+
+  (alias numberOfNewUnits scaledInteger)
+
+  (keyword numberParameter
+    "numberParameter"
+    parameterNameDef
+    (list (unique nameInformation) (unique number)))
+
+  (keyword numberParameterAssign
+    "numberParameterAssign"
+    parameterNameRef
+    numberExpression)
+
+  (keyword numberParameterRef "numberParameterRef" parameterNameRef)
+
+  (keyword numberPoint "numberPoint" xNumberValue yNumberValue)
+
+  (alias numberValue scaledInteger)
+
+  (alias numerator integerValue)
+
+  (keyword occurrenceAnnotate
+    "occurrenceAnnotate"
+    (or extendInstanceDef extendInstanceMemberDef)
+    (list
+      cellPropertyOverride
+      clusterPropertyOverride
+      comment
+      (unique designator)
+      forFrameAnnotate
+      ifFrameAnnotate
+      instancePropertyOverride
+      interconnectAnnotate
+      leafOccurrenceAnnotate
+      occurrenceAnnotate
+      otherwiseFrameAnnotate
+      pageAnnotate
+      portAnnotate
+      property
+      signalAnnotate
+      signalGroupAnnotate
+      timing
+      viewPropertyOverride))
+
+  (keyword occurrenceHierarchyAnnotate
+    "occurrenceHierarchyAnnotate"
+    (list
+      cellPropertyOverride
+      clusterPropertyOverride
+      comment
+      forFrameAnnotate
+      ifFrameAnnotate
+      interconnectAnnotate
+      leafOccurrenceAnnotate
+      occurrenceAnnotate
+      otherwiseFrameAnnotate
+      pageAnnotate
+      portAnnotate
+      signalAnnotate
+      signalGroupAnnotate
+      timing
+      viewPropertyOverride))
+
+  (keyword offsetEvent "offsetEvent" event numberValue)
+
+  (keyword ohm "ohm" unitExponent)
+
+  (keyword openShape "openShape" curve)
+
+  (keyword or "or" (list booleanExpression))
+
+  (keyword origin "origin" pointValue)
+
+  (keyword originalBoundingBox "originalBoundingBox" rectangle)
+
+  (keyword originalDrawingDate "originalDrawingDate" date)
+
+  (keyword originalDrawingDateDisplay
+    "originalDrawingDateDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (alias originalName str)
+
+  (keyword otherwiseFrame
+    "otherwiseFrame"
+    frameNameDef
+    ifFrameset
+    logicalConnectivity
+    (list comment documentation (unique nameInformation) property userData))
+
+  (keyword otherwiseFrameAnnotate
+    "otherwiseFrameAnnotate"
+    extendFrameDef
+    (list
+      comment
+      forFrameAnnotate
+      ifFrameAnnotate
+      interconnectAnnotate
+      leafOccurrenceAnnotate
+      occurrenceAnnotate
+      otherwiseFrameAnnotate
+      propertyOverride))
+
+  (keyword otherwiseFrameRef "otherwiseFrameRef" frameNameRef)
+
+  (keyword output "output")
+
+  (keyword outputPort "outputPort" (list (unique outputPortAttributes)))
+
+  (keyword outputPortAttributes
+    "outputPortAttributes"
+    (list (unique dcFaninLoad) (unique dcMaxFanout)))
+
+  (keyword owner "owner" stringValue)
+
+  (keyword page
+    "page"
+    pageNameDef
+    pageHeader
+    (list
+      cellPropertyDisplay
+      clusterPropertyDisplay
+      comment
+      localPortGroup
+      pageCommentGraphics
+      pageTitleBlock
+      propertyDisplay
+      schematicBus
+      schematicForFrameImplementation
+      schematicGlobalPortImplementation
+      schematicIfFrameImplementation
+      schematicInstanceImplementation
+      schematicMasterPortImplementation
+      schematicNet
+      schematicOffPageConnectorImplementation
+      schematicOnPageConnectorImplementation
+      schematicOtherwiseFrameImplementation
+      schematicRipperImplementation
+      userData
+      viewPropertyDisplay))
+
+  (keyword pageAnnotate
+    "pageAnnotate"
+    extendPageDef
+    (list interconnectAnnotate))
+
+  (keyword pageBorder
+    "pageBorder"
+    pageBorderTemplateRef
+    transform
+    (list propertyDisplayOverride propertyOverride))
+
+  (keyword pageBorderTemplate
+    "pageBorderTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    usableArea
+    (list
+      annotate
+      commentGraphics
+      figure
+      propertyDisplay
+      schematicComplexFigure))
+
+  (keyword pageBorderTemplateRef
+    "pageBorderTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword pageCommentGraphics
+    "pageCommentGraphics"
+    (list annotate comment figure schematicComplexFigure userData))
+
+  (keyword pageHeader
+    "pageHeader"
+    (list
+      (unique backgroundColor)
+      documentation
+      (unique nameInformation)
+      (unique originalBoundingBox)
+      (unique pageBorder)
+      (unique pagesize)
+      property
+      (unique status)))
+
+  (keyword pageIdentification "pageIdentification" str)
+
+  (keyword pageIdentificationDisplay
+    "pageIdentificationDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword pageNameCaseSensitive "pageNameCaseSensitive" booleanToken)
+
+  (alias pageNameDef nameDef)
+
+  (alias pageNameRef nameRef)
+
+  (keyword pagePropertyDisplay
+    "pagePropertyDisplay"
+    propertyNameRef
+    (list display (unique propertyNameDisplay)))
+
+  (keyword pageRef "pageRef" pageNameRef)
+
+  (keyword pagesize "pageSize" rectangle)
+
+  (keyword pageTitle "pageTitle" str)
+
+  (keyword pageTitleBlock
+    "pageTitleBlock"
+    implementationNameDef
+    pageTitleBlockTemplateRef
+    transform
+    (list
+      (unique nameInformation)
+      pagePropertyDisplay
+      (unique pageTitleBlockAttributeDisplay)
+      (unique pageTitleBlockAttributes)
+      property
+      propertyDisplay
+      propertyDisplayOverride
+      propertyOverride))
+
+  (keyword pageTitleBlockAttributeDisplay
+    "pageTitleBlockAttributeDisplay"
+    (list
+      (unique approvedDateDisplay)
+      (unique checkdateDisplay)
+      (unique companyNameDisplay)
+      (unique contractDisplay)
+      (unique copyrightDisplay)
+      (unique drawingDescriptionDisplay)
+      (unique drawingIdentificationDisplay)
+      (unique drawingSizeDisplay)
+      (unique engineeringDateDisplay)
+      (unique originalDrawingDateDisplay)
+      (unique pageIdentificationDisplay)
+      (unique pageTitleDisplay)
+      (unique revisionDisplay)
+      (unique totalPagesdisplay)))
+
+  (keyword pageTitleBlockAttributes
+    "pageTitleBlockAttributes"
+    (list
+      (unique approvedDate)
+      (unique checkdate)
+      (unique companyName)
+      (unique contract)
+      (unique drawingDescription)
+      (unique drawingIdentification)
+      (unique drawingSize)
+      (unique engineeringDate)
+      (unique originalDrawingDate)
+      (unique pageIdentification)
+      (unique pageTitle)
+      (unique revision)))
+
+  (keyword pageTitleBlockTemplate
+    "pageTitleBlockTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    (list
+      annotate
+      commentGraphics
+      figure
+      (unique pageTitleBlockAttributeDisplay)
+      (unique pageTitleBlockAttributes)
+      propertyDisplay
+      schematicComplexFigure))
+
+  (keyword pageTitleBlockTemplateRef
+    "pageTitleBlockTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword pageTitleDisplay
+    "pageTitleDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword parameterDisplay
+    "parameterDisplay"
+    parameterNameRef
+    (or addDisplay replaceDisplay removeDisplay)
+    (list (unique parameterNameDisplay)))
+
+  (keyword parameterNameCaseSensitive
+    "parameterNameCaseSensitive"
+    booleanToken)
+
+  (alias parameterNameDef nameDef)
+
+  (keyword parameterNameDisplay
+    "parameterNameDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (alias parameterNameRef nameRef)
+
+  (keyword path "path" pointList)
+
+  (keyword pathDelay "pathDelay" delay (list event))
+
+  (keyword pathWidth "pathWidth" (or lengthValue minimalWidth))
+
+  (keyword pcbLayoutUnits
+    "pcbLayoutUnits"
+    (list
+      (unique setAngle)
+      (unique setCapacitance)
+      (unique setDistance)
+      (unique setTime)))
+
+  (keyword pcbLayoutView
+    "pcbLayoutView"
+    viewNameDef
+    (list comment (unique nameInformation) userData))
+
+  (keyword permutable "permutable" (list nonpermutable permutable portRef))
+
+  (keyword physicalDefaults
+    "physicalDefaults"
+    (list (unique schematicRequiredDefaults)))
+
+  (keyword physicalScaling
+    "physicalScaling"
+    (list
+      comment
+      (unique connectivityUnits)
+      (unique documentationUnits)
+      (unique geometryMacroUnits)
+      (unique interfaceUnits)
+      (unique logicModelUnits)
+      (unique maskLayoutUnits)
+      (unique pcbLayoutUnits)
+      (unique schematicUnits)
+      (unique symboliclayoutUnits)))
+
+  (keyword pixelPattern "pixelPattern" rowSize (list pixelRow))
+
+  (keyword pixelRow "pixelRow" (list booleanToken))
+
+  (keyword point "point" pointValue)
+
+  (keyword pointList "pointList" (list pointValue))
+
+  (alias pointValue pt)
+
+  (keyword polygon "polygon" pointList)
+
+  (keyword port
+    "port"
+     portNameDef
+     portDirection
+     (list
+       (unique acLoad)
+       comment
+       (unique defaultConnection)
+       (unique designator)
+       (unique nameInformation)
+       portDelay
+       portLoadDelay
+       (unique portNameGenerator)
+       (unique portWidth)
+       property
+       (unique schematicPortAttributes)
+       (unique unused)
+       userData))
+
+  (keyword portAnnotate
+    "portAnnotate"
+    (or extendPortDef extendPortMemberDef)
+    (list
+      (unique acLoad)
+      comment
+      (unique designator)
+      (unique directionalPortAttributeOverride)
+      portDelay
+      portDelayOverride
+      portLoadDelay
+      portLoadDelayOverride
+      portPropertyOverride
+      property))
+
+  (keyword portAttributeDisplay
+    "portAttributeDisplay"
+    (list
+      (unique acLoadDisplay)
+      (unique connectedSignalIndexGeneratorDisplay)
+      (unique dcFaninLoadDisplay)
+      (unique dcFanoutLoadDisplay)
+      (unique dcMaxFaninDisplay)
+      (unique dcMaxFanoutDisplay)
+      (unique designatorDisplay)
+      portDelayDisplay
+      portLoadDelayDisplay
+      (unique portNameDisplay)
+      (unique portNameGeneratorDisplay)
+      portPropertyDisplay))
+
+  (keyword portBundle
+    "portBundle"
+    portNameDef
+    portList
+    (list comment (unique nameInformation) property userData))
+
+  (keyword portDelay
+    "portDelay"
+    portDelayNameDef
+    derivation
+    delay
+    (list becomes transition))
+
+ (keyword portDelayDisplay "portDelayDisplay" portDelayNameRef (list display))
+
+  (alias portDelayNameDef nameDef)
+
+  (alias portDelayNameRef nameRef)
+
+  (keyword portDelayOverride
+    "portDelayOverride"
+    portDelayNameRef
+    derivation
+    delay
+    (list becomes transition))
+
+  (alias portDirection
+    (or inputPort outputPort bidirectionalPort unspecifiedDirectionPort))
+
+  (alias portDirectionIndicator
+   (or input output bidirectional unspecified unrestricted mixedDirection))
+
+  (keyword portindexValue "portIndexValue")
+
+  (keyword portInstanceRef
+    "portInstanceRef"
+    (or portNameRef portMemberRef)
+    (or instanceRef instanceMemberRef))
+
+  (keyword portJoined
+    "portJoined"
+    (list globalPortRef localPortGroupRef portInstanceRef portRef))
+
+  (keyword portList "portList" (list portRef))
+
+  (keyword portLoadDelay
+    "portLoadDelay"
+    portLoadDelayNameDef
+    derivation
+    loadDelay
+    (list becomes transition))
+
+  (keyword portLoadDelayDisplay
+    "portLoadDelayDisplay"
+    portLoadDelayNameRef
+    (list display))
+
+  (alias portLoadDelayNameDef nameDef)
+
+  (alias portLoadDelayNameRef nameRef)
+
+  (keyword portLoadDelayOverride
+    "portLoadDelayOverride"
+    portLoadDelayNameRef
+    derivation
+    loadDelay
+    (list becomes transition))
+
+  (keyword portMemberRef "portMemberRef" portNameRef indexValue)
+
+  (keyword portNameCaseSensitive "portNameCaseSensitive" booleanToken)
+
+  (alias portNameDef nameDef)
+
+  (keyword portNameDisplay
+    "portNameDisplay"
+    (list display displayNameOverride))
+
+  (keyword portNameGenerator "portNameGenerator" stringExpression)
+ 
+  (keyword portNameGeneratorDisplay
+    "portNameGeneratorDisplay"
+     (or addDisplay replaceDisplay removeDisplay))
+
+  (alias portNameRef nameRef)
+
+  (keyword portPropertyDisplay
+    "portPropertyDisplay" 
+    propertyNameRef
+    (list display (unique propertyNameDisplay)))
+
+  (keyword portPropertyDisplayOverride
+    "portPropertyDisplayOverride"
+    propertyNameRef
+    (or addDisplay replaceDisplay removeDisplay)
+    (list (unique propertyNameDisplay)))
+
+  (keyword portPropertyOverride
+    "portPropertyOverride"
+    propertyNameRef
+    (or typedValue untyped)
+    (list comment (unique fixed) propertyOverride))
+
+  (keyword portRef "portRef" portNameRef)
+
+  (keyword portSet "portSet" (list portRef))
+
+  (keyword portWidth "portWidth" integerExpression)
+
+  (alias presentLogicValue (or logicNameRef logicList logicOneOf))
+
+  (alias previousLogicValue (or logicNameRef logicList logicOneOf))
+
+  (keyword previousVersion "previousVersion" viewRef (list (unique reason)))
+
+  (keyword primaryName
+    "primaryName"
+    originalName
+    (list (unique displayName) (unique generated) (unique nameStructure)))
+
+  (keyword program "program" stringValue (list (unique version)))
+
+  (keyword property
+    "property"
+    propertyNameDef
+    (or typedValue untyped)
+    (list
+      comment 
+      (unique nameInformation)
+      (unique owner)
+      property
+      (unique propertyInheritanceControl)
+      (unique unitRef)))
+
+  (keyword propertyDisplay
+    "propertyDisplay"
+    propertyNameRef
+    (list display (unique propertyNameDisplay)))
+
+  (keyword propertyDisplayOverride
+    "propertyDisplayOverride"
+    propertyNameRef
+    (or addDisplay replaceDisplay removeDisplay)
+    (list (unique propertyNameDisplay)))
+
+  (keyword propertyInheritanceControl
+    "propertyInheritanceControl"
+    (or fixed notInherited))
+
+  (keyword propertyNameCaseSensitive "propertyNameCaseSensitive" booleanToken)
+
+  (alias propertyNameDef nameDef)
+
+  (keyword propertyNameDisplay
+    "propertyNameDisplay"
+    (list display displayNameOverride))
+
+  (alias propertyNameRef nameRef)
+
+  (keyword propertyOverride
+    "propertyOverride"
+    propertyNameRef
+    (or typedValue untyped)
+    (list comment (unique fixed) propertyOverride))
+
+  (keyword proportionalfont "proportionalFont")
+
+  (keyword pt "pt" xCoordinate yCoordinate)
+
+  (alias pt1 pointValue)
+
+  (alias pt2 pointValue)
+
+  (keyword radian "radian" unitExponent)
+
+  (keyword reason "reason" str)
+
+  (keyword rectangle "rectangle" pt1 pt2)
+
+  (alias red scaledInteger)
+
+  (keyword removeDisplay "removeDisplay")
+
+  (keyword repetitionCount "repetitionCount" integerExpression)
+
+  (keyword repetitionCountDisplay
+    "repetitionCountDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword replaceDisplay "replaceDisplay" (list display))
+
+  (keyword required "required")
+
+  (keyword resolves "resolves" (list logicNameRef))
+
+  (keyword revision "revision" str)
+
+  (keyword revisionDisplay
+    "revisionDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword rightJustify "rightJustify")
+
+  (keyword ripperHotspot "ripperHotspot" hotspotNameDef hotspot)
+
+  (keyword ripperHotspotRef
+    "ripperHotspotRef"
+    hotspotNameRef
+    schematicRipperImplementationRef)
+
+  (keyword rotation "rotation" angleValue)
+
+  (keyword round "round")
+
+  (alias rowSize int)
+
+  (alias scaledInteger (or int e))
+
+  (keyword scaleX "scaleX" numerator denominator)
+
+  (keyword scaleY "scaleY" numerator denominator)
+
+  (keyword schematicBus
+    "schematicBus"
+    interconnectNameDef
+    signalGroupRef
+    schematicInterconnectHeader
+    schematicBusJoined
+    (list
+      comment
+      (unique schematicBusDetails)
+      schematicBusSlice
+      (unique schematicInterconnectAttributeDisplay)
+      userData))
+
+  (keyword schematicBusDetails
+    "schematicBusDetails"
+    (or schematicBusgraphics schematicSubBusSet))
+
+  (keyword schematicBusgraphics
+    "schematicBusGraphics"
+    (list comment figure schematicComplexFigure userData))
+
+  (keyword schematicBusJoined
+    "schematicBusJoined"
+    portJoined
+    (list
+      ripperHotspotRef
+      schematicGlobalPortImplementationRef
+      schematicInterconnectTerminatorImplementationRef
+      schematicJunctionImplementationRef
+      schematicMasterPortImplementationRef
+      schematicOffPageConnectorImplementationRef
+      schematicOnPageConnectorImplementationRef
+      schematicSymbolPortImplementationRef))
+
+  (keyword schematicBusSlice
+    "schematicBusSlice"
+    interconnectNameDef
+    signalGroupRef
+    schematicInterconnectHeader
+    schematicBusJoined
+    (list
+      comment
+      (unique schematicBusDetails)
+      schematicBusSlice
+      (unique schematicInterconnectAttributeDisplay)
+      userData))
+
+  (keyword schematicComplexFigure
+    "schematicComplexFigure"
+    schematicFigureMacroRef
+    transform
+    (list propertyDisplayOverride propertyOverride))
+
+  (keyword schematicFigureMacro
+    "schematicFigureMacro"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    (list
+      annotate
+      comment
+      commentGraphics
+      figure
+      propertyDisplay
+      schematicComplexFigure
+      userData))
+
+  (keyword schematicFigureMacroRef
+    "schematicFigureMacroRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicForFrameBorder
+    "schematicForFrameBorder"
+    schematicForFrameBorderTemplateRef
+    transform
+    (list
+      (unique forFrameindexdisplay)
+      propertyDisplayOverride
+      propertyOverride
+      (unique repetitionCountDisplay)))
+
+  (keyword schematicForFrameBorderTemplate
+    "schematicForFrameBorderTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    usableArea
+    (list
+      annotate
+      commentGraphics
+      figure
+      (unique forFrameindexdisplay)
+      propertyDisplay
+      (unique repetitionCountDisplay)
+      schematicComplexFigure))
+
+  (keyword schematicForFrameBorderTemplateRef
+    "schematicForFrameBorderTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicForFrameImplementation
+    "schematicForFrameImplementation"
+    implementationNameDef
+    forFrameRef
+    schematicForFrameImplementationHeader
+    schematicFrameImplementationDetails)
+
+  (keyword schematicForFrameImplementationHeader
+    "schematicForFrameImplementationHeader"
+    (list (unique schematicForFrameBorder)))
+
+  (keyword schematicFrameImplementationDetails
+    "schematicFrameImplementationDetails"
+    (list
+      cellPropertyDisplay
+      clusterPropertyDisplay
+      comment
+      commentGraphics
+      propertyDisplay
+      schematicBus
+      schematicForFrameImplementation
+      schematicGlobalPortImplementation
+      schematicIfFrameImplementation
+      schematicInstanceImplementation
+      schematicMasterPortImplementation
+      schematicNet
+      schematicOffPageConnectorImplementation
+      schematicOnPageConnectorImplementation
+      schematicOtherwiseFrameImplementation
+      schematicRipperImplementation
+      userData
+      viewPropertyDisplay))
+
+  (keyword schematicGlobalPortAttributes
+    "schematicGlobalPortAttributes"
+    (list
+      ieeeStandard
+      (unique schematicPortAcPower)
+      (unique schematicPortAnalog)
+      (unique schematicPortChassisGround)
+      (unique schematicPortClock)
+      (unique schematicPortDcPower)
+      (unique schematicPortEarthGround)
+      (unique schematicPortGround)
+      (unique schematicPortNonLogical)
+      (unique schematicPortOpenCollector)
+      (unique schematicPortOpenEmitter)
+      (unique schematicPortPower)
+      (unique schematicPortThreeState)))
+
+  (keyword schematicGlobalPortImplementation
+    "schematicGlobalPortImplementation"
+    implementationNameDef
+    schematicGlobalPortTemplateRef
+    globalPortRef
+    transform
+    (list
+      (unique globalPortNameDisplay)
+      globalPortPropertyDisplay
+      (unique implementationNameDisplay)
+      (unique nameInformation)
+      propertyDisplayOverride
+      propertyOverride))
+
+  (keyword schematicGlobalPortImplementationRef
+    "schematicGlobalPortImplementationRef"
+    implementationNameRef)
+
+  (keyword schematicGlobalPortTemplate
+    "schematicGlobalPortTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    hotspot
+    (list
+      annotate
+      commentGraphics
+      figure
+      (unique globalPortNameDisplay)
+      (unique implementationNameDisplay)
+      propertyDisplay
+      schematicComplexFigure
+      (unique schematicGlobalPortAttributes)))
+
+  (keyword schematicGlobalPortTemplateRef
+    "schematicGlobalPortTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicIfFrameBorder
+    "schematicIfFrameBorder"
+    schematicIfFrameBorderTemplateRef
+    transform
+    (list (unique conditionDisplay) propertyDisplayOverride propertyOverride))
+
+  (keyword schematicIfFrameBorderTemplate
+    "schematicIfFrameBorderTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    usableArea
+    (list
+      annotate
+      commentGraphics
+      (unique conditionDisplay)
+      figure
+      propertyDisplay
+      schematicComplexFigure))
+
+  (keyword schematicIfFrameBorderTemplateRef
+    "schematicIfFrameBorderTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicIfFrameImplementation
+    "schematicIfFrameImplementation"
+    implementationNameDef
+    ifFrameRef
+    schematicIfFrameImplementationHeader
+    schematicFrameImplementationDetails)
+
+  (keyword schematicIfFrameImplementationHeader
+    "schematicIfFrameImplementationHeader"
+    (list (unique schematicIfFrameBorder)))
+
+  (keyword schematicImplementation
+    "schematicImplementation"
+    (list page (unique totalPages)))
+
+  (keyword schematicInstanceImplementation
+    "schematicInstanceImplementation"
+    implementationNameDef
+    instanceRef
+    schematicSymbolRef
+    transform
+    (list
+      (unique cellNameDisplay)
+      cellPropertyDisplayOverride
+      clusterPropertyDisplayOverride
+      (unique designatorDisplay)
+      (unique implementationNameDisplay)
+      (unique instanceNameDisplay)
+      (unique instanceNameGeneratorDisplay)
+      instancePortAttributeDisplay
+      instancePropertyDisplay
+      (unique instanceWidthDisplay)
+      (unique nameInformation)
+      pageCommentGraphics
+      parameterDisplay
+      propertyDisplayOverride
+      propertyOverride
+      timingdisplay
+      (unique viewNameDisplay)))
+
+  (keyword schematicInstanceImplementationRef
+    "schematicInstanceImplementationRef"
+    implementationNameRef)
+
+  (keyword schematicInterconnectAttributeDisplay
+    "schematicInterconnectAttributeDisplay"
+    (list
+     (unique connectivityTagGeneratorDisplay)
+     (unique criticalityDisplay)
+     interconnectAttachedText
+     interconnectDelayDisplay
+     (unique interconnectNameDisplay)
+     interconnectPropertyDisplay))
+
+  (keyword schematicInterconnectHeader
+    "schematicInterconnectHeader"
+    (list
+      (unique criticality)
+      documentation
+      interconnectDelay
+      (unique nameInformation)
+      property
+      schematicInterconnectTerminatorImplementation
+      schematicJunctionImplementation
+      (unique schematicWireStyle)))
+
+  (keyword schematicInterconnectTerminatorImplementation
+    "schematicInterconnectTerminatorImplementation"
+    implementationNameDef
+    schematicInterconnectTerminatorTemplateRef
+    transform
+    (list
+      (unique implementationNameDisplay)
+      (unique nameInformation)
+      propertyDisplayOverride
+      propertyOverride))
+
+  (keyword schematicInterconnectTerminatorImplementationRef
+    "schematicInterconnectTerminatorImplementationRef"
+    implementationNameRef)
+
+  (keyword schematicInterconnectTerminatorTemplate
+    "schematicInterconnectTerminatorTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    hotspot
+    (list
+      commentGraphics
+      figure
+      (unique implementationNameDisplay)
+      propertyDisplay
+      schematicComplexFigure))
+
+  (keyword schematicInterconnectTerminatorTemplateRef
+    "schematicInterconnectTerminatorTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicJunctionImplementation
+    "schematicJunctionImplementation"
+    implementationNameDef
+    schematicJunctionTemplateRef
+    transform
+    (list
+      (unique implementationNameDisplay)
+      (unique nameInformation)
+      propertyDisplayOverride
+      propertyOverride))
+
+  (keyword schematicJunctionImplementationRef
+    "schematicJunctionImplementationRef"
+    implementationNameRef)
+
+  (keyword schematicJunctionTemplate
+    "schematicJunctionTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    hotspot
+    (list
+      commentGraphics
+      figure
+      (unique implementationNameDisplay)
+      propertyDisplay
+      schematicComplexFigure))
+
+  (keyword schematicJunctionTemplateRef
+    "schematicJunctionTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicMasterPortImplementation
+    "schematicMasterPortImplementation"
+    implementationNameDef
+    schematicMasterPortTemplateRef
+    (or portRef localPortGroupRef)
+    transform
+    (list
+      (unique implementationNameDisplay)
+      (unique nameInformation)
+      (unique portAttributeDisplay)
+      propertyDisplayOverride propertyOverride))
+
+  (keyword schematicMasterPortImplementationRef
+    "schematicMasterPortImplementationRef"
+    implementationNameRef)
+
+  (keyword schematicMasterPortTemplate
+    "schematicMasterPortTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    hotspot
+    portDirectionIndicator
+    (list
+      annotate
+      commentGraphics
+      figure
+      (unique implementationNameDisplay)
+      (unique portAttributeDisplay)
+      propertyDisplay
+      schematicComplexFigure
+      (unique schematicPortStyle)))
+
+  (keyword schematicMasterPortTemplateRef
+    "schematicMasterPortTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicMetric
+    "schematicMetric"
+    setDistance
+    (or hotspotGrid noHotspotGrid)
+    (list (unique nominalHotspotGrid)))
+
+  (keyword schematicNet
+    "schematicNet"
+    interconnectNameDef
+    signalRef
+    schematicInterconnectHeader
+    schematicNetJoined
+    (list
+      comment
+      (unique schematicInterconnectAttributeDisplay)
+      (unique schematicNetDetails)
+      userData))
+
+  (keyword schematicNetDetails
+    "schematicNetDetails"
+    (or schematicNetGraphics schematicSubNetSet))
+
+  (keyword schematicNetGraphics
+    "schematicNetGraphics"
+    (list comment figure schematicComplexFigure userData))
+
+  (keyword schematicNetJoined
+    "schematicNetJoined"
+    (or portJoined joinedAsSignal)
+    (list
+      ripperHotspotRef
+      schematicGlobalPortImplementationRef
+      schematicInterconnectTerminatorImplementationRef
+      schematicJunctionImplementationRef
+      schematicMasterPortImplementationRef
+      schematicOffPageConnectorImplementationRef
+      schematicOnPageConnectorImplementationRef
+      schematicSymbolPortImplementationRef))
+
+  (keyword schematicOffPageConnectorImplementation
+    "schematicOffPageConnectorImplementation"
+    implementationNameDef
+    schematicOffPageConnectorTemplateRef
+    transform
+    (list
+      (unique associatedInterconnectNameDisplay)
+      (unique implementationNameDisplay)
+      (unique nameInformation)
+      property
+      propertyDisplay
+      propertyDisplayOverride
+      propertyOverride))
+
+  (keyword schematicOffPageConnectorImplementationRef
+    "schematicOffPageConnectorImplementationRef"
+    implementationNameRef)
+
+  (keyword schematicOffPageConnectorTemplate
+    "schematicOffPageConnectorTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    hotspot
+    (list
+      annotate
+      (unique associatedInterconnectNameDisplay)
+      commentGraphics
+      figure
+      (unique implementationNameDisplay)
+     propertyDisplay schematicComplexFigure ))
+
+  (keyword schematicOffPageConnectorTemplateRef
+    "schematicOffPageConnectorTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicOnPageConnectorImplementation
+    "schematicOnPageConnectorImplementation"
+    implementationNameDef
+    schematicOnPageConnectorTemplateRef
+    transform
+    (list
+      (unique associatedInterconnectNameDisplay)
+      (unique implementationNameDisplay)
+      (unique nameInformation)
+      property
+      propertyDisplay
+      propertyDisplayOverride
+      propertyOverride))
+
+  (keyword schematicOnPageConnectorImplementationRef
+    "schematicOnPageConnectorImplementationRef"
+    implementationNameRef)
+
+  (keyword schematicOnPageConnectorTemplate
+    "schematicOnPageConnectorTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    hotspot
+    (list
+      annotate
+      (unique associatedInterconnectNameDisplay)
+      commentGraphics
+      figure
+      (unique implementationNameDisplay)
+      propertyDisplay
+      schematicComplexFigure))
+
+  (keyword schematicOnPageConnectorTemplateRef
+    "schematicOnPageConnectorTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicOtherwiseFrameBorder
+    "schematicOtherwiseFrameBorder"
+    schematicOtherwiseFrameBorderTemplateRef
+    transform
+    (list propertyDisplayOverride propertyOverride))
+
+  (keyword schematicOtherwiseFrameBorderTemplate
+    "schematicOtherwiseFrameBorderTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    usableArea
+    (list
+      annotate
+      commentGraphics
+      figure
+      propertyDisplay
+      schematicComplexFigure))
+
+  (keyword schematicOtherwiseFrameBorderTemplateRef
+    "schematicOtherwiseFrameBorderTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicOtherwiseFrameImplementation
+    "schematicOtherwiseFrameImplementation"
+    implementationNameDef
+    otherwiseFrameRef
+    schematicOtherwiseFrameImplementationHeader
+    schematicFrameImplementationDetails)
+
+  (keyword schematicOtherwiseFrameImplementationHeader
+    "schematicOtherwiseFrameImplementationHeader"
+    (list (unique schematicOtherwiseFrameBorder)))
+
+  (keyword schematicPortAcPower
+    "schematicPortAcPower"
+    (list
+      (unique schematicPortAcPowerRecommendedFrequency)
+      (unique schematicPortAcPowerRecommendedVoltageRms)))
+
+  (keyword schematicPortAcPowerRecommendedFrequency
+    "schematicPortAcPowerRecommendedFrequency"
+    frequencyvalue)
+
+  (keyword schematicPortAcPowerRecommendedVoltageRms
+    "schematicPortAcPowerRecommendedVoltageRms"
+    voltageValue)
+
+  (keyword schematicPortAnalog "schematicPortAnalog")
+
+  (keyword schematicPortAttributes
+    "schematicPortAttributes"
+    (list
+      ieeeStandard
+      (unique schematicPortAcPower)
+      (unique schematicPortAnalog)
+      (unique schematicPortChassisGround)
+      (unique schematicPortClock)
+      (unique schematicPortDcPower)
+      (unique schematicPortEarthGround)
+      (unique schematicPortGround)
+      (unique schematicPortNonLogical)
+      (unique schematicPortOpenCollector)
+      (unique schematicPortOpenEmitter)
+      (unique schematicPortPower)
+      (unique schematicPortThreeState)))
+
+  (keyword schematicPortChassisGround
+    "schematicPortChassisGround"
+    (list (unique schematicPortAnalog)))
+
+  (keyword schematicPortClock
+    "schematicPortClock"
+    (list (unique ieeeStandard)))
+
+  (keyword schematicPortDcPower
+    "schematicPortDcPower"
+    (list
+      (unique schematicPortAnalog)
+      (unique schematicPortDcPowerRecommendedVoltage)))
+
+  (keyword schematicPortDcPowerRecommendedVoltage
+    "schematicPortDcPowerRecommendedVoltage"
+    voltageValue)
+
+  (keyword schematicPortEarthGround
+    "schematicPortEarthGround"
+    (list (unique schematicPortAnalog)))
+
+  (keyword schematicPortGround
+    "schematicPortGround"
+    (list (unique schematicPortAnalog)))
+
+  (keyword schematicPortNonLogical "schematicPortNonLogical")
+
+  (keyword schematicPortOpenCollector "schematicPortOpenCollector")
+
+  (keyword schematicPortOpenEmitter "schematicPortOpenEmitter")
+
+  (keyword schematicPortPower "schematicPortPower")
+
+  (keyword schematicPortStyle "schematicPortStyle" (or narrowport widePort))
+
+  (keyword schematicPortThreeState "schematicPortThreeState")
+
+  (keyword schematicRequiredDefaults
+    "schematicRequiredDefaults"
+    schematicMetric
+    fontRef
+    textHeight)
+
+  (keyword schematicRipperImplementation
+    "schematicRipperImplementation"
+    implementationNameDef
+    schematicRipperTemplateRef
+    transform
+    (list
+      (unique implementationNameDisplay)
+      (unique nameInformation)
+      property
+      propertyDisplay
+      propertyDisplayOverride
+      propertyOverride))
+
+  (keyword schematicRipperImplementationRef
+    "schematicRipperImplementationRef"
+    implementationNameRef)
+
+  (keyword schematicRipperTemplate
+    "schematicRipperTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    (list
+      annotate
+      commentGraphics
+      figure
+      (unique implementationNameDisplay)
+      propertyDisplay
+      ripperHotspot
+      schematicComplexFigure))
+
+  (keyword schematicRipperTemplateRef
+    "schematicRipperTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicSubBus
+    "schematicSubBus"
+    interconnectNameDef
+    schematicSubInterconnectHeader
+    schematicBusJoined
+    (list
+      comment
+      (unique schematicBusDetails)
+      schematicBusSlice
+      (unique schematicInterconnectAttributeDisplay)
+      userData))
+
+  (keyword schematicSubBusSet "schematicSubBusSet" (list schematicSubBus))
+
+  (keyword schematicSubInterconnectHeader
+    "schematicSubInterconnectHeader"
+    (list
+      (unique criticality)
+      documentation
+      interconnectDelay
+      (unique nameInformation)
+      property))
+
+  (keyword schematicSubNet
+    "schematicSubNet"
+    interconnectNameDef
+    schematicSubInterconnectHeader
+    schematicNetJoined
+    (list
+      comment
+      (unique schematicInterconnectAttributeDisplay)
+      (unique schematicNetDetails)
+      userData))
+
+  (keyword schematicSubNetSet "schematicSubNetSet" (list schematicSubNet))
+
+  (keyword schematicSymbol
+    "schematicSymbol"
+    viewNameDef
+    schematicSymbolHeader
+    (list
+      annotate
+      (unique cellNameDisplay)
+      cellPropertyDisplay
+      clusterPropertyDisplay
+      comment
+      commentGraphics
+      (unique designatorDisplay)
+      figure
+      (unique implementationNameDisplay)
+      (unique instanceNameDisplay)
+      (unique instanceNameGeneratorDisplay)
+      (unique instanceWidthDisplay)
+      parameterDisplay
+      propertyDisplay
+      schematicComplexFigure
+      schematicSymbolPortImplementation
+      userData
+      (unique viewNameDisplay)))
+
+  (keyword schematicSymbolBorder
+    "schematicSymbolBorder"
+    schematicSymbolBorderTemplateRef
+    transform
+    (list propertyDisplayOverride propertyOverride))
+
+  (keyword schematicSymbolBorderTemplate
+    "schematicSymbolBorderTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    usableArea
+    (list
+      annotate
+      commentGraphics
+      figure
+      propertyDisplay
+      schematicComplexFigure))
+
+  (keyword schematicSymbolBorderTemplateRef
+    "schematicSymbolBorderTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicSymbolHeader
+    "schematicSymbolHeader"
+    schematicUnits
+    (list
+      (unique backgroundColor)
+      (unique derivedFrom)
+      documentation
+      (unique nameInformation)
+      (unique originalBoundingBox)
+      (unique pagesize)
+      (unique previousVersion)
+      property
+      (unique schematicSymbolBorder)
+      (unique status)))
+
+  (keyword schematicSymbolPortImplementation
+    "schematicSymbolPortImplementation"
+    symbolPortImplementationNameDef
+    portRef
+    schematicSymbolPortTemplateRef
+    transform
+    (list
+      (unique portAttributeDisplay)
+      propertyDisplayOverride
+      propertyOverride))
+
+  (keyword schematicSymbolPortImplementationRef
+    "schematicSymbolPortImplementationRef"
+    symbolPortImplementationNameRef
+    schematicInstanceImplementationRef)
+
+  (keyword schematicSymbolPortTemplate
+    "schematicSymbolPortTemplate"
+    libraryObjectNameDef
+    schematicTemplateHeader
+    hotspot
+    portDirectionIndicator
+    (list
+      annotate
+      commentGraphics
+      figure
+      (unique implementationNameDisplay)
+      (unique portAttributeDisplay)
+      propertyDisplay
+      schematicComplexFigure
+      (unique schematicPortAttributes)
+      (unique schematicPortStyle)))
+
+  (keyword schematicSymbolPortTemplateRef
+    "schematicSymbolPortTemplateRef"
+    libraryObjectNameRef
+    (optional libraryRef))
+
+  (keyword schematicSymbolRef "schematicSymbolRef" viewNameRef)
+
+  (keyword schematicTemplateHeader
+    "schematicTemplateHeader"
+    schematicUnits
+    (list
+      (unique backgroundColor)
+      documentation
+      (unique nameInformation)
+      (unique originalBoundingBox)
+      property
+      (unique status)))
+
+  (keyword schematicUnits
+     "schematicUnits"
+     (list
+       (unique schematicMetric)
+       (unique setAngle)
+       (unique setCapacitance)
+       (unique setFrequency)
+       (unique setTime)
+       (unique setVoltage)))
+
+  (keyword schematicView
+    "schematicView"
+    viewNameDef
+    schematicViewHeader
+    logicalConnectivity
+    schematicImplementation
+    (list comment userData))
+
+  (keyword schematicViewHeader
+    "schematicViewHeader"
+    schematicUnits
+    (list
+      (unique derivedFrom)
+      documentation
+      (unique nameInformation)
+      (unique previousVersion)
+      property
+      (unique status)))
+
+  (keyword schematicWireAffinity
+    "schematicWireAffinity"
+    (or narrowWire wideWire unrestricted))
+
+  (keyword schematicWireStyle "schematicWireStyle" (or narrowWire wideWire))
+
+  (keyword second "second" unitExponent)
+
+  (alias secondIntegerExpression integerExpression)
+
+  (alias secondNumber int)
+
+  (alias secondStringExpression stringExpression)
+
+  (keyword section
+    "section"
+    sectionNameDef
+    sectionTitle
+    (list diagram section stringValue))
+
+  (alias sectionNameDef nameDef)
+
+  (keyword sectionTitle "sectionTitle" str)
+
+  (keyword sequence "sequence" fromInteger toInteger (list (unique step)))
+
+  (keyword setAngle "setAngle" unitRef)
+
+  (keyword setCapacitance "setCapacitance" unitRef)
+
+  (keyword setcurrent "setCurrent" unitRef)
+
+  (keyword setDistance "setDistance" unitRef)
+
+  (keyword setFrequency "setFrequency" unitRef)
+
+  (keyword setTime "setTime" unitRef)
+
+  (keyword setVoltage "setVoltage" unitRef)
+
+  (keyword shape "shape" curve)
+
+  (keyword siemens "siemens" unitExponent)
+
+  (keyword signal
+    "signal"
+    signalNameDef
+    signalJoined
+    (list 
+      (unique connectivityTagGenerator)
+      (unique nameInformation)
+      property
+      (unique signalWidth)))
+
+  (keyword signalAnnotate
+    "signalAnnotate"
+    (or extendSignalDef extendSignalMemberDef)
+    (list comment property propertyOverride))
+
+  (keyword signalGroup
+    "signalGroup"
+    signalGroupNameDef
+    signalList
+    (list (unique nameInformation) property))
+
+  (keyword signalGroupAnnotate
+    "signalGroupAnnotate"
+    extendSignalGroupDef
+    (list comment property propertyOverride))
+
+  (keyword signalGroupNameCaseSensitive
+    "signalGroupNameCaseSensitive"
+    booleanToken)
+
+  (alias signalGroupNameDef nameDef)
+
+  (alias signalGroupNameRef nameRef)
+
+  (keyword signalGroupRef "signalGroupRef" signalGroupNameRef)
+
+  (keyword signalIndexValue "signalIndexValue")
+
+  (keyword signalJoined
+    "signalJoined"
+    (list
+      globalPortRef
+      portInstanceRef
+      portMemberRef
+      portRef))
+
+  (keyword signalList "signalList" (list signalGroupRef signalRef))
+
+  (keyword signalMemberRef "signalMemberRef" signalNameRef indexValue)
+
+  (keyword signalNameCaseSensitive "signalNameCaseSensitive" booleanToken)
+
+  (alias signalNameDef nameDef)
+
+  (alias signalNameRef nameRef)
+
+  (keyword signalRef "signalRef" signalNameRef)
+
+  (keyword signalWidth "signalWidth" integerExpression)
+
+  (alias simpleName str)
+
+  (alias startPoint pointValue)
+
+  (keyword status "status" (list comment copyright userData written))
+
+  (keyword step "step" integerValue)
+
+  (keyword string "string" stringExpression)
+
+  (keyword stringConcatenate "stringConcatenate" (list stringExpression))
+
+  (keyword stringConstant "stringConstant" constantNameDef str)
+
+  (keyword stringConstantRef "stringConstantRef" constantNameRef)
+
+  (keyword stringEqual
+    "stringEqual"
+    firstStringExpression
+    secondStringExpression)
+
+  (alias stringExpression
+    (or
+      stringParameterRef
+      str
+      stringConstantRef
+      stringConcatenate
+      substring
+      decimalToString
+      stringPrefix
+      stringSuffix))
+
+  (keyword stringLength "stringLength" stringExpression)
+
+  (keyword stringParameter
+    "stringParameter"
+    parameterNameDef
+    (list (unique nameInformation) (unique string)))
+
+  (keyword stringParameterAssign
+    "stringParameterAssign"
+    parameterNameRef
+    stringExpression)
+
+  (keyword stringParameterRef "stringParameterRef" parameterNameRef)
+
+  (keyword stringPrefix "stringPrefix" stringExpression substringLength)
+
+  (keyword stringSuffix "stringSuffix" stringExpression substringOffset)
+
+  (alias stringValue str)
+
+  (keyword strong "strong" logicNameRef)
+
+  (alias subissue int)
+
+  (keyword substring
+    "substring"
+    stringExpression
+    substringLength
+    substringOffset)
+
+  (alias substringLength integerExpression)
+
+  (alias substringOffset integerExpression)
+
+  (alias subtrahend integerExpression)
+
+  (keyword symboliclayoutUnits
+    "symbolicLayoutUnits"
+    (list
+      (unique setAngle)
+      (unique setCapacitance)
+      (unique setDistance)
+      (unique setTime)))
+
+  (keyword symboliclayoutView
+    "symbolicLayoutView"
+    viewNameDef
+    (list comment (unique nameInformation) userData))
+
+  (alias symbolPortImplementationNameDef nameDef)
+
+  (alias symbolPortImplementationNameRef nameRef)
+
+  (keyword technology
+    "technology"
+    physicalScaling
+    (list comment figureGroup (unique logicDefinitions) userData))
+
+  (keyword textHeight "textHeight" lengthValue)
+
+  (alias throughPoint numberPoint)
+
+  (keyword time "time" hourNumber minuteNumber secondNumber)
+
+  (alias timedelay timeValue)
+
+  (keyword timeInterval
+    "timeInterval"
+    (or event offsetEvent)
+    (or event offsetEvent duration))
+
+  (keyword timeStamp "timeStamp" date time)
+
+  (alias timeValue miNoMaxValue)
+
+  (keyword timing
+    "timing"
+    timingNameDef
+    derivation
+    (list comment forbiddenEvent pathDelay property userData))
+
+  (keyword timingdisplay "timingDisplay" timingNameRef (list display))
+
+  (alias timingNameDef nameDef)
+
+  (alias timingNameRef nameRef)
+
+  (alias toInteger int)
+
+  (keyword topJustify "topJustify")
+
+  (keyword totalPages "totalPages" int)
+
+  (keyword totalPagesdisplay
+    "totalPagesDisplay"
+    (or addDisplay replaceDisplay removeDisplay))
+
+  (keyword transform
+    "transform"
+    (list (unique origin) (unique rotation) (unique scaleX) (unique scaleY)))
+
+  (keyword transition "transition" previousLogicValue presentLogicValue)
+
+  (keyword true "true")
+
+  (keyword truncate "truncate")
+
+  (alias typedValue (or boolean integer miNoMax number point string))
+
+  (keyword typeface "typeface" fontfamily (list (unique typefaceSuffix)))
+
+  (keyword typefaceSuffix "typefaceSuffix" str)
+
+  (keyword unconfigured "unconfigured")
+
+  (keyword unconstrained "unconstrained")
+
+  (keyword undefined "undefined")
+
+  (keyword unit
+    "unit"
+    unitNameDef
+    numberOfNewUnits
+    numberOfBasicUnits
+    (list
+      (unique ampere)
+      (unique candela)
+      (unique celsius)
+      (unique coulomb)
+      (unique degree)
+      (unique fahrenheit)
+      (unique farad)
+      (unique henry)
+      (unique hertz)
+      (unique joule)
+      (unique kelvin)
+      (unique kilogram)
+      (unique meter)
+      (unique mole)
+      (unique ohm)
+      (unique radian)
+      (unique second)
+      (unique siemens)
+      (unique volt)
+      (unique watt)
+      (unique weber)))
+
+  (keyword unitDefinitions "unitDefinitions" (list unit))
+
+  (alias unitExponent scaledInteger)
+
+  (alias unitNameDef nameDef)
+
+  (alias unitNameRef nameRef)
+
+  (keyword unitRef "unitRef" unitNameRef)
+
+  (keyword unrestricted "unrestricted")
+
+  (keyword unspecified "unspecified")
+
+  (keyword unspecifiedDirectionPort "unspecifiedDirectionPort")
+
+  (keyword untyped "untyped")
+
+  (keyword unused "unused")
+
+  (keyword usableArea "usableArea" (list rectangle))
+
+  (keyword userData "userData" userDataTag (list id int str userData))
+
+  (alias userDataTag id)
+
+  (keyword version "version" stringValue)
+
+  (keyword verticalJustification
+    "verticalJustification"
+    (or bottomJustify baselineJustify middleJustify caplineJustify topJustify))
+
+  (keyword viewGroup
+    "viewGroup"
+    viewGroupNameDef
+    viewGroupheader
+    (list comment userData viewGroupRef viewRef))
+
+  (keyword viewGroupheader
+    "viewGroupHeader"
+    (list documentation (unique nameInformation) property (unique reason)))
+
+  (keyword viewGroupNameCaseSensitive
+    "viewGroupNameCaseSensitive"
+    booleanToken)
+
+  (alias viewGroupNameDef nameDef)
+
+  (alias viewGroupNameRef nameRef)
+
+  (keyword viewGroupRef "viewGroupRef" viewGroupNameRef)
+
+  (keyword viewNameCaseSensitive "viewNameCaseSensitive" booleanToken)
+
+  (alias viewNameDef nameDef)
+
+  (keyword viewNameDisplay
+    "viewNameDisplay"
+    (list display displayNameOverride))
+
+  (alias viewNameRef nameRef)
+
+  (keyword viewPropertyDisplay
+    "viewPropertyDisplay"
+    propertyNameRef
+    (list display (unique propertyNameDisplay)))
+
+  (keyword viewPropertyOverride
+    "viewPropertyOverride"
+    propertyNameRef
+    (or typedValue untyped)
+    (list comment (unique fixed) propertyOverride))
+
+  (keyword viewRef "viewRef" viewNameRef (optional clusterRef))
+
+  (keyword visible "visible" booleanValue)
+
+  (keyword volt "volt" unitExponent)
+
+  (keyword voltageMap "voltageMap" voltageValue)
+
+  (alias voltageValue miNoMaxValue)
+
+  (keyword watt "watt" unitExponent)
+
+  (keyword weak "weak" logicNameRef)
+
+  (keyword weakJoined "weakJoined" (list interfaceJoined portRef))
+
+  (keyword weber "weber" unitExponent)
+
+  (keyword widePort "widePort")
+
+  (keyword wideWire "wideWire")
+
+  (keyword written
+    "written"
+    timeStamp
+    (list
+      (unique author)
+      comment
+      (unique dataOrigin)
+      (unique program)
+      userData))
+
+  (alias xCoordinate integerValue)
+
+  (alias xNumberValue numberValue)
+
+  (keyword xor "xor" (list booleanExpression))
+
+  (alias yCoordinate integerValue)
+
+  (keyword year "year" (list yearNumber))
+
+  (alias yearNumber int)
+
+  (alias yNumberValue numberValue))

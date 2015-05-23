@@ -1,0 +1,90 @@
+INTRODUCTION
+   pep is a parser for EDIF-like languages
+
+EDIF
+   EDIF (Electronic Design Interchange Format) is a family of
+   languages designed in the 1980s and 1990s to facilitate the
+   interchange of electronic designs between different electronic
+   design systems (e.g. Cadence, Mentor Graphics)
+
+   * The format visually looks like Lisp.
+
+   * It is format (e.g. PDF) not a Turing complete language
+     (e.g. PostScript).
+
+   * In the 1990s EDIF files for non-trivial designs were measured in
+     tens or hundreds of MB at the time when (Sun) workstations
+     typically had 8MiB and servers had 32MiB.
+
+   * To process EDIF you needed at least an EDIF parser.  There were a
+     variety available but none were freely available.  That changed
+     sometime in 2000s when Manchester University make their parsers
+     freely available, for example see
+     http://web.archive.org/web/20050311061427/http://edif-tc.cs.man.ac.uk/parser/ep300-3.3.1-unlicensed-sunos5-sparc.tar.gz.
+
+     The parser would take an EDIF file and generate a binary
+     intermediate format (aka token file).  A C API for the
+     intermediate format enabled EDIF translators/importers to be
+     written.  A feature of the C API is that it did not load the whole
+     intermediate format into memory, see above for typical machine
+     sizes to see why, but rather directly used the on-disk
+     representation, only caching a few pages in memory.
+
+HISTORY
+   * Written between 1994-09-19 and 1995-04-04 in the evening and at
+     weekends with the intention of making it freely available as an
+     alternative to the Manchester University EDIF v300 parser.  Hence
+     provides a compatible C API to access the intermediate form.
+
+   * Used to develop OTZ (EDIF v300 level one to EDIF v300 level zero
+     translator).
+
+   * Originally developed using lcc and gcc, mostly the former since
+     it was much quicker on ...
+
+   * Originally developed on a laptop with a DX2-66, 8MiB of RAM,
+     250MB of disk running Linux 0.99.
+
+   * RCS was used for revision control.
+  
+   * Recovered from an backup tar in 2015-05 and cleaned up in order to
+     finally make it public.
+
+   * Original Makefile structure supported multiple simultaneous
+     builds with different variations (gcc vs lcc, debug vs
+     optimization, ... etc.) since compilation was slow.  In 2015 it
+     only takes a second or so to build everything on a 1.6 GHz PC and
+     so the Makefile has been replaced with something much simpler
+     which doesn't even attempt to track dependencies, just "make
+     clean; make" if in any doubt.
+
+   * Looking back from 2015 ...
+
+      * The lexer unnecessarily hard-wires in the generation of the
+        disk based intermediate form.  It should have taken a struct
+        pe_as_builder that abstracted over building the intermediate
+        form.
+
+      * Original memory allocation did not directly use
+        malloc(3)/free(3) but it was only a thin veneer over it which
+        allowed detection of leaks, but didn't help in finding where.
+        That was removed in 2015 to simplify the code.  In 1995 had
+        on-and-off access to Purify running under SunOS/Solaris and so
+        that somewhat mitigated the need for anything more advanced.
+
+      * Error handling is deliberately primitive.  Could do with being
+        a bit more friendly.
+
+BUILD
+   No autoconf here, tweak the Makefile to suit and then type :-
+
+      $ make
+
+RUN
+      $ ./pep -l grammars/edif/300/ samples/edif/300/bad.edf
+      samples/edif/300/bad.edf:100 error  (list (unique borderPattern) (unique borderPatternVisible) (unique borderWidth) (unique color) (unique fillPattern) (unique fillPatternVisible) (unique fontRef) (unique horizontalJustification) (unique textHeight) (unique verticalJustification) (unique visible))
+
+AUTHOR
+   Ninetes Retro <nineties-retro@mail.com>
+
+   5d19ad6d05ae2ac511d1118df78c76d4de2706d5507a605301b92b5b599b36c3
