@@ -16,7 +16,7 @@ size_t2pe_as_kw(size_t i)
 }
 
 static inline pe_as_kw
-pe_as_kw_bottom(vokw)
+pe_as_kw_bottom(void)
 {
 	return size_t2pe_as_kw(0);
 }
